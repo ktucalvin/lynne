@@ -1,0 +1,35 @@
+{
+  "name": "mystia",
+  "version": "0.1.0",
+  "description": "A Discord bot built with Discord.js for simple moderation, music playback, and for chatting.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "dotenv": "^5.0.1",
+    "erlpack": "^0.1.0",
+    "libsodium-wrappers": "^0.7.3",
+    "node-opus": "^0.2.7",
+    "sinon": "^4.5.0",
+    "uws": "^9.148.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ktucalvin@bitbucket.org/ktucalvin/mystia.git"
+  },
+  "keywords": [
+    "discord"
+  ],
+  "author": "ktucalvin",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/ktucalvin/mystia#readme"
+}
