@@ -21,7 +21,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-all": "mocha $(find . -path ./node_modules -prune -o -name \"*.test.js\")"
+    "test-all": "mocha $(find . -path ./node_modules -prune -o -name \"*.test.js\")",
+    "test-coverage": "nyc mocha $(find . -path ./node_modules -prune -o -name \"*.test.js\")"
   },
   "repository": {
     "type": "git",
