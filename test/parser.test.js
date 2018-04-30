@@ -17,7 +17,7 @@ describe('parser', function() {
   })
 
   it('should parse command with no arguments', function() {
-    testAllIdentifiers('command', { name: 'command' })
+    testAllIdentifiers('command', { name: 'command', args: [] })
   })
 
   it('should parse command with multiple arguments', function() {
@@ -30,7 +30,7 @@ describe('parser', function() {
 
   it('should parse punctuated command with no arguments', function() {
     for (const name of names) {
-      expect(parse(`${name}, command`)).to.deep.equal({ name: 'command' })
+      expect(parse(`${name}, command`)).to.deep.equal({ name: 'command', args: [] })
     }
   })
 

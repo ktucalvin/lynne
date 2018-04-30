@@ -12,15 +12,16 @@
     "erlpack": "^0.1.0",
     "libsodium-wrappers": "^0.7.3",
     "node-opus": "^0.2.7",
-    "sinon": "^4.5.0",
     "uws": "^9.148.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^5.1.1"
+    "mocha": "^5.1.1",
+    "sinon": "^4.5.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test-all": "mocha $(find . -path ./node_modules -prune -o -name \"*.test.js\")"
   },
   "repository": {
     "type": "git",

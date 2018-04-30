@@ -6,6 +6,7 @@ const registry = new Map()
 function walk(dir) {
   const files = fs.readdirSync(dir)
   for (let file of files) {
+    if (file === 'test') { return }
     file = path.join(dir, file)
     if (fs.statSync(file).isDirectory()) {
       walk(file)
