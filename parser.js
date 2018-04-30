@@ -61,7 +61,7 @@ module.exports = msg => {
   args = args.filter(e => { return e !== '' })
 
   if (args.length === 1) {
-    return { name: clean(args[0]) }
+    return { name: clean(args[0]), args: [] }
   } else {
     const name = clean(args.shift())
     return { name, args }
