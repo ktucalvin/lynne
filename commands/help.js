@@ -4,7 +4,7 @@ module.exports = {
   description: 'Mystia helps you with a command or lists all of them',
   usage: 'help [command]',
   execute(message, args) {
-    const commands = require('../command-registry.js')
+    const commands = require('../command-registry')
     const RichEmbed = require('discord.js').RichEmbed
     const embed = new RichEmbed()
       .setColor('#FD79A8')

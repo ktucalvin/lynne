@@ -3,9 +3,9 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const message = require('./fake-message')
-const help = require('../help.js').execute
+const help = require('../help').execute
 let spy
-describe('echo', function() {
+describe('help', function() {
   beforeEach(function() {
     spy = sinon.spy(message.channel, 'send')
   })
@@ -16,16 +16,16 @@ describe('echo', function() {
 
   it('should print a list of commands given no arguments', function() {
     help(message, [])
-    const result = spy.returnValues[0]
-    expect(result.description).to.include('\nping')
-    expect(result.description).to.not.include('Name:')
+    expect(spy.returnValues[0].description)
+      .to.include('\nping')
+      .and.to.not.include('Name:')
   })
 
   it('should print a detailed description of a command if given argument', function() {
     help(message, ['ping'])
-    const result = spy.returnValues[0]
-    expect(result.description).to.include('**Name**:')
-    expect(result.description).to.not.include('echo')
+    expect(spy.returnValues[0].description)
+      .to.include('**Name**:')
+      .and.to.not.include('echo')
   })
 
   it('should notify user if command cannot be found', function() {

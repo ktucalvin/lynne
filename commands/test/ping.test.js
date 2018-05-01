@@ -3,7 +3,7 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const message = require('./fake-message')
-const ping = require('../ping.js').execute
+const ping = require('../ping').execute
 let spy
 describe('ping', function() {
   beforeEach(function() {
