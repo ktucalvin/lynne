@@ -1,7 +1,8 @@
 'use strict'
 const fs = require('fs')
 const path = require('path')
-const registry = new Map()
+const { Collection } = require('discord.js')
+const registry = new Collection()
 
 function walk(dir) {
   const files = fs.readdirSync(dir)

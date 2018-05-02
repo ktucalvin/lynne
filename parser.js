@@ -2,11 +2,11 @@
 const { prefix, names } = require('./config.json')
 
 function stripIdentifier(msg) {
-  if (msg.startsWith(prefix)) {
+  if (msg.toLowerCase().startsWith(prefix)) {
     return msg.slice(prefix.length)
   }
   for (const name of names) {
-    if (msg.startsWith(name)) {
+    if (msg.toLowerCase().startsWith(name)) {
       return msg.slice(name.length)
     }
   }
@@ -17,7 +17,7 @@ function clean(string) {
 }
 
 function isCommand(msg) {
-  msg = msg.replace(/ /g, '')
+  msg = msg.replace(/ /g, '').toLowerCase()
   if (msg.startsWith(prefix)) { return true }
   for (const name of names) {
     if (msg.startsWith(name)) { return true }
@@ -31,19 +31,25 @@ module.exports = msg => {
   if (!msg) { throw new SyntaxError('EmptyCommand') }
 
   let args = []
+  let start, end
   msg += ' '
+
+  function collapseQuote(mark) {
+    start++
+    end = msg.indexOf(mark, start)
+    if (end === -1) { throw new SyntaxError('MissingQuote') }
+    if (msg.charAt(end - 1) === '\\') {
+      msg = msg.substr(0, end - 1) + msg.slice(end)
+      end = msg.indexOf(mark, end + 1)
+    }
+  }
   while (msg.length > 0) {
-    let start = msg.search(/[^\s]/)
+    start = msg.search(/[^\s]/)
     if (start === -1) { break }
-    let end
     if (msg.charAt(start) === '"') {
-      start++
-      end = msg.indexOf('"', start)
-      if (end === -1) { throw new SyntaxError('MissingQuote') }
+      collapseQuote('"')
     } else if (msg.charAt(start) === "'") {
-      start++
-      end = msg.indexOf("'", start)
-      if (end === -1) { throw new SyntaxError('MissingQuote') }
+      collapseQuote("'")
     } else {
       end = msg.search(/\s/)
     }
@@ -59,6 +65,9 @@ module.exports = msg => {
     args.shift()
   }
   args = args.filter(e => { return e !== '' })
+
+  // TODO double-dash -- means don't process options after this
+  // IDEA separate quote-collapsing and option-handling into separate functions, why were they merged into this one?
 
   if (args.length === 1) {
     return { name: clean(args[0]), args: [] }
