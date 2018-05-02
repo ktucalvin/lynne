@@ -21,7 +21,17 @@ client.on('message', message => {
     }
     command.execute(message, args)
   } catch (err) {
-    console.log(err)
+    switch (err.message) {
+      case 'MissingQuote':
+        message.channel.send('Um, I think you missed a quote')
+        break
+      case 'EmptyCommand':
+        message.channel.send('What did you mean? You didn\'t specify a command!')
+        break
+      default:
+        message.channel.send('An unknown error has occured!')
+        console.log(message)
+    }
   }
 })
 
