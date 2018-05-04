@@ -4,7 +4,7 @@ const expect = require('chai').expect
 const sinon = require('sinon')
 const message = require('./fake-message')
 const echo = require('../echo').execute
-const parse = require('../../parser')
+const { parse } = require('../../parser')
 let spy
 describe('echo', function() {
   beforeEach(function() {

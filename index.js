@@ -2,7 +2,7 @@
 require('dotenv').config()
 const { Client } = require('discord.js')
 const client = new Client()
-const parse = require('./parser')
+const { parse } = require('./parser')
 const commands = require('./command-registry')
 
 client.on('ready', () => {
