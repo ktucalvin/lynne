@@ -24,7 +24,7 @@ describe('help', function() {
   it('should print a detailed description of a command if given argument', function() {
     help(message, ['ping'])
     expect(spy.returnValues[0].description)
-      .to.include('**Name**:')
+      .to.include('**Description**:')
       .and.to.not.include('echo')
   })
 
