@@ -30,7 +30,7 @@ client.on('message', message => {
         break
       default:
         message.channel.send('An unknown error has occured!')
-        console.log(message)
+        console.log(err)
     }
   }
 })

@@ -1,6 +1,8 @@
 'use strict'
 /* eslint-env mocha */
-const expect = require('chai').expect
+const chai = require('chai')
+const expect = chai.expect
+chai.use(require('chai-as-promised'))
 const { parse, getopts } = require('../parser')
 const { prefix, names } = require('../config.json')
 
@@ -109,11 +111,14 @@ describe('parser', function() {
       expect(getopts(['--set-option', 'value'], '', ['set-option:'])).to.deep.equal({ 'set-option': 'value', flags: [] })
     })
 
-    it('should not let parameterized options use other options as params', function() {
-      getopts(['-o', '-a'], 'ao:', [], message.channel.send)
-      getopts(['--param', '--option'], '', ['param:', 'option'], message.channel.send)
-      expect(spy.returnValues[0]).to.include('requires an argument')
-      expect(spy.returnValues[1]).to.include('requires an argument')
+    it('should not let short parameterized options use other options as params', function() {
+      getopts(['-o', '-a'], 'ao:', [], message)
+      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
+    })
+
+    it('should not let long parameterized options use other options as params', function() {
+      getopts(['--param', '--option'], '', ['param:', 'option'], message)
+      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
     })
 
     it('should unalias long parameterized options representing short ones', function() {
@@ -140,20 +145,23 @@ describe('parser', function() {
     })
 
     it('should notify user if parameterized option is squeezed between standalone flags', function() {
-      getopts(['-xfv', 'file'], 'xvf:', [], message.channel.send)
-      expect(spy.returnValues[0]).to.include('out of order')
+      getopts(['-xfv', 'file'], 'xvf:', [], message)
+      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('out of order')
     })
 
     it('should notify user if an unknown option is given', function() {
-      getopts(['-a', '-n', 'arg'], 'a', [], message.channel.send)
-      expect(spy.returnValues[0]).to.include('not a valid option')
+      getopts(['-a', '-n', 'arg'], 'a', [], message)
+      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('not a valid option')
     })
 
-    it('should notify user if parameterized option is not given argument', function() {
-      getopts(['-o'], 'o:', [], message.channel.send)
-      getopts(['--param'], '', ['param:'], message.channel.send)
-      expect(spy.returnValues[0]).to.include('requires an argument')
-      expect(spy.returnValues[1]).to.include('requires an argument')
+    it('should notify user if short parameterized option is not given argument', function() {
+      getopts(['-o'], 'o:', [], message)
+      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
+    })
+
+    it('should notify user if short parameterized option is not given argument', function() {
+      getopts(['-o'], 'o:', [], message)
+      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
     })
   })
 })

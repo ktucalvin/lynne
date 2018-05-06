@@ -1,6 +1,8 @@
 'use strict'
 /* eslint-env mocha */
-const expect = require('chai').expect
+const chai = require('chai')
+const expect = chai.expect
+chai.use(require('chai-as-promised'))
 const sinon = require('sinon')
 const message = require('./fake-message')
 const ping = require('../ping').execute
@@ -16,6 +18,6 @@ describe('ping', function() {
 
   it('should send "pong!" to the channel', function() {
     ping(message, [])
-    expect(spy.returnValues[0]).to.equal('pong!')
+    return expect(spy.returnValues[0]).to.eventually.have.property('content').equals('pong!')
   })
 })

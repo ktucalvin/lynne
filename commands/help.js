@@ -23,7 +23,7 @@ module.exports = new function() {
       let description = ''
       for (let property in command) {
         if (property !== 'execute' && property !== 'name') {
-          description += `**${property.charAt(0).toUpperCase() + property.slice(1)}**: ${command[property]}\n`
+          description += `**${property.charAt(0).toUpperCase() + property.slice(1)}:** ${command[property]}\n`
         }
       }
 

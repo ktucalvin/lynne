@@ -69,7 +69,7 @@ function parse(msg) {
   return { name: clean(args.shift()), args }
 }
 
-function getopts(args, optstring, longs, send) {
+function getopts(args, optstring, longs, message) {
   function unalias(token) {
     for (const option of longs) {
       if (!option.startsWith(token)) { continue }
@@ -82,7 +82,7 @@ function getopts(args, optstring, longs, send) {
     return token
   }
 
-  function classifyArg(token, send) {
+  function classifyArg(token, message) {
     if (token.startsWith('--')) {
       for (const option of longs) {
         if (option.startsWith(token.slice(2))) {
@@ -95,7 +95,7 @@ function getopts(args, optstring, longs, send) {
     if (token.startsWith('-')) {
       for (let i = 1; i < token.length; i++) {
         if (!optstring.includes(token.charAt(i))) {
-          send(`${token.charAt(i)} is not a valid option!`)
+          message.channel.send(`${token.charAt(i)} is not a valid option!`)
           return 'ARG'
         }
       }
@@ -119,13 +119,13 @@ function getopts(args, optstring, longs, send) {
   for (let i = 0; i < args.length; i++) {
     let token = args[i]
     if (token === '--') { return options }
-    const type = classifyArg(token, send)
+    const type = classifyArg(token, message)
     if (type === 'ARG') { continue }
     if (type === 'LONG') {
       token = token.slice(2)
       if (isParameterized(token, longs)) {
-        if (i + 1 >= args.length || classifyArg(args[i + 1], send) !== 'ARG') {
-          send(`The option ${token} requires an argument!`)
+        if (i + 1 >= args.length || classifyArg(args[i + 1], message) !== 'ARG') {
+          message.channel.send(`The option ${token} requires an argument!`)
           return
         }
         options[unalias(token)] = args[i + 1]
@@ -138,12 +138,12 @@ function getopts(args, optstring, longs, send) {
     for (let j = 1; j < token.length; j++) {
       const option = token.charAt(j)
       if (isParameterized(option, optstring)) {
-        if (i + 1 >= args.length || classifyArg(args[i + 1], send) !== 'ARG') {
-          send(`The option ${option} requires an argument!`)
+        if (i + 1 >= args.length || classifyArg(args[i + 1], message) !== 'ARG') {
+          message.channel.send(`The option ${option} requires an argument!`)
           return
         }
         if (token.charAt(j + 1)) {
-          send(`Your options are out of order! The option \`${option}\` must be on the end of a flag.`)
+          message.channel.send(`Your options are out of order! The option \`${option}\` must be on the end of a flag.`)
           return
         }
         options[option] = args[i + 1]
