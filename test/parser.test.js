@@ -4,14 +4,7 @@ const chai = require('chai')
 const expect = chai.expect
 chai.use(require('chai-as-promised'))
 const { parse, getopts } = require('../parser')
-const { prefix, names } = require('../config.json')
-
-function testAllIdentifiers(command, result) {
-  for (const name of names) {
-    expect(parse(name + command)).to.deep.equal(result)
-  }
-  expect(parse(prefix + command)).to.deep.equal(result)
-}
+const { prefix } = require('../config.json')
 
 describe('parser', function() {
   describe('parse()', function() {
@@ -20,57 +13,40 @@ describe('parser', function() {
     })
 
     it('should parse command with no arguments', function() {
-      testAllIdentifiers(' command', { name: 'command', args: [] })
+      expect(parse(prefix + 'command')).to.deep.equal({ name: 'command', args: [] })
     })
 
     it('should parse command with multiple arguments', function() {
-      testAllIdentifiers(' command arg1 arg2', { name: 'command', args: ['arg1', 'arg2'] })
-    })
-
-    it('should ignore capitalization of the identifier', function() {
-      for (let name of names) {
-        name = name.charAt(0).toUpperCase() + name.slice(1)
-        expect(parse(name + ' command arg1 arg2')).to.deep.equal({ name: 'command', args: ['arg1', 'arg2'] })
-      }
+      expect(parse(prefix + 'command arg1 arg2')).to.deep.equal({ name: 'command', args: ['arg1', 'arg2'] })
     })
 
     it('should throw EmptyCommand if no command specified', function() {
-      expect(() => { parse(prefix) }).to.throw(SyntaxError, 'EmptyCommand')
-    })
-
-    it('should parse punctuated command with no arguments', function() {
-      testAllIdentifiers(', command!!', { name: 'command', args: [] })
-    })
-
-    it('should parse punctuated command with arguments', function() {
-      testAllIdentifiers(', command:: arg1 arg2', { name: 'command', args: ['arg1', 'arg2'] })
+      expect(() => { parse(prefix) }).to.throw(SyntaxError)
     })
 
     it('should collapse quoted arguments', function() {
-      testAllIdentifiers(' command "spaced argument" "second argument"', { name: 'command', args: ['spaced argument', 'second argument'] })
+      expect(parse(prefix + 'command "spaced argument" "second argument"')).to.deep.equal({ name: 'command', args: ['spaced argument', 'second argument'] })
     })
 
     it('should collapse single quoted arguments', function() {
-      testAllIdentifiers(" command 'single quoted' 'arguments with space'", { name: 'command', args: ['single quoted', 'arguments with space'] })
+      expect(parse(prefix + "command 'single quoted' 'arguments with space'")).to.deep.equal({ name: 'command', args: ['single quoted', 'arguments with space'] })
     })
 
     it('should escape single and double quotes if prefixed with backslash', function() {
-      testAllIdentifiers(' command "escaped \\" double"', { name: 'command', args: ['escaped " double'] }) // eslint-disable-line
-      testAllIdentifiers(" command 'escaped \\' single'", { name: 'command', args: ["escaped ' single"] }) // eslint-disable-line
+      expect(parse(prefix + 'command "escaped \\" double"')).to.deep.equal({ name: 'command', args: ['escaped " double'] })
+      expect(parse(prefix + "command 'escaped \\' single'")).to.deep.equal({ name: 'command', args: ["escaped ' single"] })
     })
 
     it('should parse a mix of quoted and non-quoted arguments', function() {
-      testAllIdentifiers(' command "a b c" arg1 \'1 2 3\' arg2', { name: 'command', args: ['a b c', 'arg1', '1 2 3', 'arg2'] })
+      expect(parse(prefix + ' command "a b c" arg1 \'1 2 3\' arg2')).to.deep.equal({ name: 'command', args: ['a b c', 'arg1', '1 2 3', 'arg2'] })
     })
 
     it('should throw MissingQuote for invalid quoted argument', function() {
-      for (const name of names) {
-        expect(() => { parse(name + ' command "invalid quote') }).to.throw(SyntaxError, 'MissingQuote')
-      }
+      expect(() => { parse(prefix + 'command "invalid quote') }).to.throw(SyntaxError)
     })
 
     it('should strip non-quoted whitespace', function() {
-      testAllIdentifiers(' command   arg1   arg2    "with    whitespace"    ', { name: 'command', args: ['arg1', 'arg2', 'with    whitespace'] })
+      expect(parse(prefix + 'command   arg1   arg2    "with    whitespace"    ')).to.deep.equal({ name: 'command', args: ['arg1', 'arg2', 'with    whitespace'] })
     })
   })
 
