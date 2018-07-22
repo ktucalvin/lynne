@@ -77,6 +77,13 @@ describe('parser', function() {
   describe('getopts()', function() {
     const sinon = require('sinon')
     const message = require('../commands/test/fake-message')
+    const optmap = new Map()
+      .set('standalone', { alias: 's' })
+      .set('option', { alias: 'o' })
+      .set('parameterized', { alias: 'p', hasParam: true })
+      .set('default-param', { alias: 'd', hasParam: true, default: 'DEFAULT' })
+      .set('no-alias')
+
     let spy
     beforeEach(function() {
       spy = sinon.spy(message.channel, 'send')
@@ -85,83 +92,59 @@ describe('parser', function() {
     afterEach(function() {
       spy.restore()
     })
-    it('should set short standalone options', function() {
-      expect(getopts(['-a', '-b', '-c'], 'abc').flags).to.deep.equal(['a', 'b', 'c'])
+
+    it('should set a standalone option', function() {
+      expect(getopts(['-s'], optmap).get('flags')).to.include('standalone')
+      expect(getopts(['--standalone'], optmap).get('flags')).to.include('standalone')
     })
 
-    it('should set a sequence of standalone options', function() {
-      expect(getopts(['-abc'], 'abc').flags).to.deep.equal(['a', 'b', 'c'])
+    it('should set a parameterized option', function() {
+      expect(getopts(['-p', 'param'], optmap).get('parameterized')).to.equal('param')
+      expect(getopts(['--parameterized', 'param'], optmap).get('parameterized')).to.equal('param')
     })
 
-    it('should set long standalone options', function() {
-      const { flags } = getopts(['--option', '--foobar'], '', ['option', 'foobar'])
-      expect(flags).to.deep.equal(['option', 'foobar'])
+    it('should set a default value if an option is missing a parameter', function() {
+      expect(getopts(['-d'], optmap).get('default-param')).to.equal('DEFAULT')
     })
 
-    it('should unalias standalone long options representing short ones', function() {
-      const { flags } = getopts(['--alias'], '', ['alias=a'])
-      expect(flags).to.deep.equal(['a'])
+    it('should not allow another option to be used as a parameter', function() {
+      expect(getopts(['-d', '-o'], optmap).get('default-param')).to.equal('DEFAULT')
     })
 
-    it('should set short parameterized options', function() {
-      expect(getopts(['-o', 'opt'], 'o:')).to.deep.equal({ o: 'opt', flags: [] })
+    it('should use the latest specified options', function() {
+      expect(getopts(['-p', 'first', '-p', 'latest'], optmap).get('parameterized')).to.equal('latest')
     })
 
-    it('should set long parameterized options', function() {
-      expect(getopts(['--set-option', 'value'], '', ['set-option:'])).to.deep.equal({ 'set-option': 'value', flags: [] })
+    it('should process a sequence of flags', function() {
+      const opts = getopts(['-so'], optmap)
+      expect(opts.get('flags')).to.deep.equal(['standalone', 'option'])
     })
 
-    it('should not let short parameterized options use other options as params', function() {
-      getopts(['-o', '-a'], 'ao:', [], message)
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
+    it('should strip options from argument array', function() {
+      const args = ['arg1', '-so', 'arg2', '--parameterized', 'param', 'arg3', '--', '-o']
+      getopts(args, optmap)
+      expect(args).to.deep.equal(['arg1', 'arg2', 'arg3', '-o'])
     })
 
-    it('should not let long parameterized options use other options as params', function() {
-      getopts(['--param', '--option'], '', ['param:', 'option'], message)
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
+    it('should reject parameterized flag between standalones', function() {
+      expect(() => { getopts(['-spo'], optmap) }).to.throw(SyntaxError)
     })
 
-    it('should unalias long parameterized options representing short ones', function() {
-      expect(getopts(['--alias', 'value'], '', ['alias:=a'])).to.deep.equal({ 'a': 'value', flags: [] })
+    it('should reject nonexistent flag', function() {
+      expect(() => { getopts(['--nonexistent-flag'], optmap) }).to.throw(SyntaxError)
     })
 
-    it('should leave regular command arguments alone', function() {
-      const args = ['-o', 'opt', 'arg1', '-a', 'arg2', '-p', 'param']
-      expect(getopts(args, 'o:p:a')).to.deep.equal({ o: 'opt', p: 'param', flags: ['a'] })
-      expect(args).to.deep.equal(['arg1', 'arg2'])
+    it('should reject nonexistent flag in sequence', function() {
+      expect(() => { getopts(['-sz'], optmap) }).to.throw(SyntaxError)
     })
 
-    it('should handle a mix of short (+ sequenced), long, parameterized, and standalone options', function() {
-      const options = getopts(['-a', '-bc', '--long', '-o', 'opt', '--param', 'par'], 'abco:', ['long', 'param:'])
-      expect(options).to.deep.equal({ o: 'opt', param: 'par', flags: ['a', 'b', 'c', 'long'] })
+    it('should not process flags past a double dash', function() {
+      const opts = getopts(['-s', '--', '-o'], optmap)
+      expect(opts).to.not.include('option')
     })
 
-    it('should handle parameterized option combined on end of multiple standalones', function() {
-      expect(getopts(['-xvf', 'file'], 'xvf:')).to.deep.equal({ f: 'file', flags: ['x', 'v'] })
-    })
-
-    it('should not process options after a bare dash --', function() {
-      expect(getopts(['-a', '-b', '-o', 'opt', '--', '-arg', '--not-an-opt', '-a'], 'abo:')).to.deep.equal({ o: 'opt', flags: ['a', 'b'] })
-    })
-
-    it('should notify user if parameterized option is squeezed between standalone flags', function() {
-      getopts(['-xfv', 'file'], 'xvf:', [], message)
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('out of order')
-    })
-
-    it('should notify user if an unknown option is given', function() {
-      getopts(['-a', '-n', 'arg'], 'a', [], message)
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('not a valid option')
-    })
-
-    it('should notify user if short parameterized option is not given argument', function() {
-      getopts(['-o'], 'o:', [], message)
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
-    })
-
-    it('should notify user if short parameterized option is not given argument', function() {
-      getopts(['-o'], 'o:', [], message)
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('requires an argument')
+    it('should return immediately if no token is prefixed with a dash', function() {
+      expect(getopts(['arg1', 'arg2'], optmap)).to.deep.equal(new Map().set('flags', []))
     })
   })
 })
