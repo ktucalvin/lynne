@@ -51,23 +51,12 @@ describe('parser', function() {
   })
 
   describe('getopts()', function() {
-    const sinon = require('sinon')
-    const message = require('../commands/test/fake-message')
     const optmap = new Map()
       .set('standalone', { alias: 's' })
       .set('option', { alias: 'o' })
       .set('parameterized', { alias: 'p', hasParam: true })
       .set('default-param', { alias: 'd', hasParam: true, default: 'DEFAULT' })
       .set('no-alias')
-
-    let spy
-    beforeEach(function() {
-      spy = sinon.spy(message.channel, 'send')
-    })
-
-    afterEach(function() {
-      spy.restore()
-    })
 
     it('should set a standalone option', function() {
       expect(getopts(['-s'], optmap).get('flags')).to.include('standalone')

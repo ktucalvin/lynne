@@ -1,11 +1,11 @@
 'use strict'
 module.exports = new function() {
-  const commands = require('../command-registry')
   const { RichEmbed } = require('discord.js')
   this.name = 'help'
   this.description = 'Mystia helps you with a command or lists all of them!'
   this.usage = 'help [command]'
   this.execute = (message, args) => {
+    const commands = require('../command-registry')
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setTitle('More information can be found on the wiki')
