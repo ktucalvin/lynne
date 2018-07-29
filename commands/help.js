@@ -13,7 +13,7 @@ module.exports = new function() {
     if (args.length === 0) {
       embed
         .setAuthor('Mystia\'s Commands')
-        .setDescription('Type `~help <command>` for more information!\n' + Array.from(commands.keys()).join('\n'))
+        .setDescription('Type `~help <command>` for more information!\n' + commands.keyArray().join('\n'))
     } else {
       const command = commands.get(args[0])
       if (!command) {
