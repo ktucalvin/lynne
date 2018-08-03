@@ -2,7 +2,6 @@
 /* eslint-env mocha */
 const chai = require('chai')
 const expect = chai.expect
-chai.use(require('chai-as-promised'))
 const { parse, getopts } = require('../parser')
 const { prefix } = require('../config.json')
 
