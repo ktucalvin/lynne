@@ -19,16 +19,18 @@ describe('parser', function() {
       expect(parse(prefix + 'command arg1 arg2')).to.deep.equal({ name: 'command', args: ['arg1', 'arg2'] })
     })
 
-    it('should throw EmptyCommand if no command specified', function() {
-      expect(() => { parse(prefix) }).to.throw(SyntaxError)
+    it('should return empty object if no command specified', function() {
+      expect(parse(prefix)).to.deep.equal({})
     })
 
     it('should collapse quoted arguments', function() {
-      expect(parse(prefix + 'command "spaced argument" "second argument"')).to.deep.equal({ name: 'command', args: ['spaced argument', 'second argument'] })
+      expect(parse(prefix + 'command "spaced argument" "second argument"'))
+        .to.deep.equal({ name: 'command', args: ['spaced argument', 'second argument'] })
     })
 
     it('should collapse single quoted arguments', function() {
-      expect(parse(prefix + "command 'single quoted' 'arguments with space'")).to.deep.equal({ name: 'command', args: ['single quoted', 'arguments with space'] })
+      expect(parse(prefix + "command 'single quoted' 'arguments with space'"))
+        .to.deep.equal({ name: 'command', args: ['single quoted', 'arguments with space'] })
     })
 
     it('should escape single and double quotes if prefixed with backslash', function() {
@@ -37,15 +39,17 @@ describe('parser', function() {
     })
 
     it('should parse a mix of quoted and non-quoted arguments', function() {
-      expect(parse(prefix + ' command "a b c" arg1 \'1 2 3\' arg2')).to.deep.equal({ name: 'command', args: ['a b c', 'arg1', '1 2 3', 'arg2'] })
+      expect(parse(prefix + ' command "a b c" arg1 \'1 2 3\' arg2'))
+        .to.deep.equal({ name: 'command', args: ['a b c', 'arg1', '1 2 3', 'arg2'] })
     })
 
     it('should throw MissingQuote for invalid quoted argument', function() {
-      expect(() => { parse(prefix + 'command "invalid quote') }).to.throw(SyntaxError)
+      expect(() => { parse(prefix + 'command "invalid quote') }).to.throw(Error).with.property('key', 'parser.missingQuote')
     })
 
     it('should strip non-quoted whitespace', function() {
-      expect(parse(prefix + 'command   arg1   arg2    "with    whitespace"    ')).to.deep.equal({ name: 'command', args: ['arg1', 'arg2', 'with    whitespace'] })
+      expect(parse(prefix + 'command   arg1   arg2    "with    whitespace"    '))
+        .to.deep.equal({ name: 'command', args: ['arg1', 'arg2', 'with    whitespace'] })
     })
   })
 
@@ -84,6 +88,11 @@ describe('parser', function() {
       expect(opts.get('flags')).to.deep.equal(['standalone', 'option'])
     })
 
+    it('should still set duplicate flags', function() {
+      const opts = getopts(['-soso'], optmap)
+      expect(opts.get('flags')).to.deep.equal(['standalone', 'option', 'standalone', 'option'])
+    })
+
     it('should strip options from argument array', function() {
       const args = ['arg1', '-so', 'arg2', '--parameterized', 'param', 'arg3', '--', '-o']
       getopts(args, optmap)
@@ -91,15 +100,16 @@ describe('parser', function() {
     })
 
     it('should reject parameterized flag between standalones', function() {
-      expect(() => { getopts(['-spo'], optmap) }).to.throw(SyntaxError)
+      expect(() => { getopts(['-spo'], optmap) }).to.throw(Error).with.property('key', 'parser.parameterizedBeforeStandalone')
     })
 
     it('should reject nonexistent flag', function() {
-      expect(() => { getopts(['--nonexistent-flag'], optmap) }).to.throw(SyntaxError)
+      expect(() => { getopts(['--nonexistent-flag'], optmap) })
+        .to.throw(Error).with.deep.property('data', { option: 'nonexistent-flag' })
     })
 
     it('should reject nonexistent flag in sequence', function() {
-      expect(() => { getopts(['-sz'], optmap) }).to.throw(SyntaxError)
+      expect(() => { getopts(['-sz'], optmap) }).to.throw(Error).with.deep.property('data', { option: 'z' })
     })
 
     it('should not process flags past a double dash', function() {

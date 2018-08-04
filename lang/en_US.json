@@ -1,0 +1,7 @@
+{
+  "main.commandNotFound": "That's not a command that I understand, sorry!",
+  "main.unknownError": "An unknown error has occured!",
+  "parser.missingQuote": "You're missing a quotation mark so I can't understand what you mean!",
+  "parser.unknownOption": "Unrecognized option: `%(option)`",
+  "parser.parameterizedBeforeStandalone": "Option `%(option)` requires parameter and cannot be before `%(flag)`"
+}

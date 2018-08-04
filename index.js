@@ -1,10 +1,15 @@
 'use strict'
 require('dotenv').config()
 const { Client } = require('discord.js')
-const client = new Client()
 const { parse } = require('./parser')
+const CustomError = require('./custom-error')
 const commands = require('./command-registry')
+const i18n = require('./i18n')
+i18n.init()
+const __ = i18n.translate
+const _r = i18n.substitute
 
+const client = new Client()
 client.on('ready', () => {
   console.log('Mystia has woken up!')
 })
@@ -16,21 +21,17 @@ client.on('message', message => {
     if (!name) { return }
     const command = commands.get(name) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(name))
     if (!command) {
-      message.channel.send('That\'s not a command that I understand, sorry!')
+      message.channel.send(__('main.commandNotFound'))
       return
     }
     command.execute(message, args)
   } catch (err) {
-    switch (err.message) {
-      case 'MissingQuote':
-        message.channel.send('Um, I think you missed a quote')
-        break
-      case 'EmptyCommand':
-        message.channel.send('What did you mean? You didn\'t specify a command!')
-        break
-      default:
-        message.channel.send('An unknown error has occured!')
-        console.log(err)
+    if (!(err instanceof CustomError)) {
+      console.error(err)
+      message.channel.send(__('main.unknownError'))
+    }
+    if (err.type === 'ParserError') {
+      message.channel.send(_r(err.key, err.data))
     }
   }
 })
