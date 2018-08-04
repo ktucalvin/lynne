@@ -12,14 +12,20 @@ module.exports = new function() {
     const optmap = new Map()
       .set('ranged', { alias: 'r' })
       .set('card', { alias: 'c' })
-    const opts = getopts(args, optmap)
-    if (opts.get('flags').includes('card')) {
+    const behavior = getopts(args, optmap).get('flags').pop()
+    if (behavior === 'card') {
       const suits = ['diamonds', 'spades', 'hearts', 'clubs']
       const values = ['ace', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'jack', 'queen', 'king']
       message.channel.send(`I got the ${values[randInt(0, values.length - 1)]} of ${suits[randInt(0, 3)]}`)
-    } else if (args.length < 2) {
+      return
+    }
+
+    if (args.length < 2) {
       message.channel.send('You must give me at least two options to pick from!')
-    } else if (opts.get('flags').includes('ranged')) {
+      return
+    }
+
+    if (behavior === 'ranged') {
       if (!parseInt(args[0]) || !parseInt(args[1])) {
         message.channel.send('At least one limit is not an integer!')
         return
