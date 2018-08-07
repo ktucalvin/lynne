@@ -4,10 +4,13 @@ const chai = require('chai')
 const expect = chai.expect
 chai.use(require('chai-as-promised'))
 const sinon = require('sinon')
+const i18n = require('../../i18n')
 const message = require('./fake-message')
 const pick = require('../pick').execute
 let spy
+
 describe('pick', function() {
+  before(function() { i18n.init('en_US') })
   beforeEach(function() {
     spy = sinon.spy(message.channel, 'send')
   })

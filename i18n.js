@@ -5,6 +5,7 @@ let lang
 
 module.exports = new function() {
   this.init = specificLocale => {
+    if (lang) { return }
     if (specificLocale) { locale = specificLocale }
     if (!fs.existsSync(`./lang/${locale}.json`)) {
       throw new Error(`${locale} does not have json file`)
@@ -35,4 +36,7 @@ module.exports = new function() {
     }
     return str
   }
+
+  this.has = key => lang.hasOwnProperty(key)
+  this.clear = () => { lang = null }
 }()

@@ -6,9 +6,12 @@ chai.use(require('chai-as-promised'))
 const sinon = require('sinon')
 const message = require('./fake-message')
 const User = require('./fake-user')
+const i18n = require('../../i18n')
 const avatar = require('../avatar').execute
 let spy
+
 describe('avatar', function() {
+  before(function() { i18n.init('en_US') })
   beforeEach(function() {
     spy = sinon.spy(message.channel, 'send')
   })

@@ -1,41 +1,36 @@
 'use strict'
 module.exports = new function() {
+  const { translate: __, substitute: _r } = require('../i18n')
   const { getopts } = require('../parser')
   this.name = 'pick'
-  this.description = `Mystia will help you pick something!
-  -r --ranged
-      Pick from a numeric range instead. Requires two numeric inputs
-  -c --card
-      Pick a card instead`
-  this.usage = 'pick [-rc] <option1> <option2> [options...]'
+  this.description = 'pick.description'
+  this.usage = '\npick -c\npick [-r] option1 option2 [options...]'
   this.execute = (message, args) => {
     const optmap = new Map()
       .set('ranged', { alias: 'r' })
       .set('card', { alias: 'c' })
     const behavior = getopts(args, optmap).get('flags').pop()
     if (behavior === 'card') {
-      const suits = ['diamonds', 'spades', 'hearts', 'clubs']
-      const values = ['ace', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'jack', 'queen', 'king']
-      message.channel.send(`I got the ${values[randInt(0, values.length - 1)]} of ${suits[randInt(0, 3)]}`)
+      message.channel.send(_r('pick.card', { value: __('pick.values')[randInt(0, 12)], suit: __('pick.suits')[randInt(0, 3)] }))
       return
     }
 
     if (args.length < 2) {
-      message.channel.send('You must give me at least two options to pick from!')
+      message.channel.send(__('pick.insufficientOptions'))
       return
     }
 
     if (behavior === 'ranged') {
       if (!parseInt(args[0]) || !parseInt(args[1])) {
-        message.channel.send('At least one limit is not an integer!')
+        message.channel.send(__('pick.nonNumericLimit'))
         return
       }
       if (args[0] > args[1]) {
         [args[1], args[0]] = [args[0], args[1]]
       }
-      message.channel.send(`I choose ${randInt(args[0], args[1])}`)
+      message.channel.send(_r('pick.choose', randInt(args[0], args[1])))
     } else {
-      message.channel.send(`I choose ${args[Math.floor(Math.random() * args.length)]}`)
+      message.channel.send(_r('pick.choose', args[Math.floor(Math.random() * args.length)]))
     }
 
     function randInt(lo, hi) {

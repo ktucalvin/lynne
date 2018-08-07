@@ -1,7 +1,7 @@
 'use strict'
 module.exports = {
   name: 'ping',
-  description: 'Mystia replies with pong!',
+  description: 'ping.description',
   usage: 'ping',
   execute(message, args) {
     message.channel.send('pong!')

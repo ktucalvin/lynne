@@ -2,7 +2,7 @@
 module.exports = {
   name: 'echo',
   aliases: ['say'],
-  description: 'Mystia echoes what you say!',
+  description: 'echo.description',
   usage: 'echo <message>',
   execute(message, args) {
     if (!args.length) {

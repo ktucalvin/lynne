@@ -8,6 +8,7 @@ const _r = i18n.substitute
 
 describe('i18n', function() {
   it('should error if module not pre-initialized', function() {
+    i18n.clear()
     expect(() => { __('i18n-test') }).to.throw('I18n module was not initialized before use')
   })
 
@@ -41,4 +42,6 @@ describe('i18n', function() {
   it('should error if not all substitutions could be made', function() {
     expect(() => { _r('i18n.insufficientSubstitutionsTest', 'one') }).to.throw('Not enough substitutions provided to replace string:')
   })
+
+  after(i18n.clear)
 })
