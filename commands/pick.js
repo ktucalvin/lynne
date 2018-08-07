@@ -3,13 +3,12 @@ module.exports = new function() {
   const { translate: __, substitute: _r } = require('../i18n')
   const { getopts } = require('../parser')
   this.name = 'pick'
-  this.description = 'pick.description'
+  this.optmap = new Map()
+    .set('ranged', { alias: 'r' })
+    .set('card', { alias: 'c' })
   this.usage = '\npick -c\npick [-r] option1 option2 [options...]'
   this.execute = (message, args) => {
-    const optmap = new Map()
-      .set('ranged', { alias: 'r' })
-      .set('card', { alias: 'c' })
-    const behavior = getopts(args, optmap).get('flags').pop()
+    const behavior = getopts(args, this.optmap).get('flags').pop()
     if (behavior === 'card') {
       message.channel.send(_r('pick.card', { value: __('pick.values')[randInt(0, 12)], suit: __('pick.suits')[randInt(0, 3)] }))
       return

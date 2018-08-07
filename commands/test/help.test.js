@@ -31,6 +31,13 @@ describe('help', function() {
       .have.property('name').equal('Description')
   })
 
+  it('should generate description of options if optmap available', function() {
+    help(message, ['pick'])
+    return expect(spy.returnValues[0]).to.eventually
+      .have.nested.property('content.fields[0].value')
+      .to.include('-c --card')
+  })
+
   it('should notify user if command cannot be found', function() {
     help(message, ['nonexistantcommand'])
     return expect(spy.returnValues[0]).to.eventually.have.property('content').include('not a command')
