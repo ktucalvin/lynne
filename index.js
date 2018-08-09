@@ -38,6 +38,7 @@ client.on('message', message => {
 
 function close() {
   console.log('\nMystia is going to sleep!')
+  i18n.saveServerLocalizations()
   client.destroy()
   process.exit(0)
 }

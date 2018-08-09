@@ -10,26 +10,26 @@ module.exports = new function() {
   this.execute = (message, args) => {
     const behavior = getopts(args, this.optmap).get('flags').pop()
     if (behavior === 'card') {
-      message.channel.send(_r('pick.card', { value: __('pick.values')[randInt(0, 12)], suit: __('pick.suits')[randInt(0, 3)] }))
+      message.channel.send(_r('pick.card', message.guild.id, { value: __('pick.values')[randInt(0, 12)], suit: __('pick.suits')[randInt(0, 3)] }))
       return
     }
 
     if (args.length < 2) {
-      message.channel.send(__('pick.insufficientOptions'))
+      message.channel.send(__('pick.insufficientOptions', message.guild.id))
       return
     }
 
     if (behavior === 'ranged') {
       if (!parseInt(args[0]) || !parseInt(args[1])) {
-        message.channel.send(__('pick.nonNumericLimit'))
+        message.channel.send(__('pick.nonNumericLimit', message.guild.id))
         return
       }
       if (args[0] > args[1]) {
         [args[1], args[0]] = [args[0], args[1]]
       }
-      message.channel.send(_r('pick.choose', randInt(args[0], args[1])))
+      message.channel.send(_r('pick.choose', message.guild.id, randInt(args[0], args[1])))
     } else {
-      message.channel.send(_r('pick.choose', args[Math.floor(Math.random() * args.length)]))
+      message.channel.send(_r('pick.choose', message.guild.id, args[Math.floor(Math.random() * args.length)]))
     }
 
     function randInt(lo, hi) {

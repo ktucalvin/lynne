@@ -10,7 +10,7 @@ const pick = require('../pick').execute
 let spy
 
 describe('pick', function() {
-  before(function() { i18n.init('en_US') })
+  before(function() { i18n.init() })
   beforeEach(function() {
     spy = sinon.spy(message.channel, 'send')
   })

@@ -1,28 +1,36 @@
 'use strict'
 const fs = require('fs')
-let { locale } = require('./config.json')
-let lang
+let { defaultLocale } = require('./config.json')
+const locales = new Map()
+const servers = new Map()
 
 module.exports = new function() {
-  this.init = specificLocale => {
-    if (lang) { return }
-    if (specificLocale) { locale = specificLocale }
-    if (!fs.existsSync(`./lang/${locale}.json`)) {
-      throw new Error(`${locale} does not have json file`)
+  this.init = () => {
+    const availableLocales = fs.readdirSync('./lang').filter(e => e !== 'server-localizations.json')
+    for (let i = 0; i < availableLocales.length; i++) {
+      const locale = availableLocales[i]
+      locales.set(locale.slice(0, -5), require(`./lang/${locale}`))
     }
-    lang = require(`./lang/${locale}.json`)
+    if (fs.existsSync('./lang/server-localizations.json')) {
+      const localizations = require('./lang/server-localizations.json')
+      for (const [server, locale] of Object.entries(localizations)) { servers.set(server, locale) }
+    }
   }
 
-  this.translate = (key) => {
-    if (!lang) { throw new Error('I18n module was not initialized before use') }
-    if (!lang[key]) {
-      throw new Error(`Key ${key} not present in ${locale}`)
-    }
-    return lang[key]
+  this.translate = (key, guildId) => {
+    if (!locales.size) { throw new Error('No locales registered') }
+    const locale = servers.get(guildId) || defaultLocale
+    const translations = locales.get(locale)
+    if (!translations.hasOwnProperty(key)) { throw new Error(`Key ${key} not present in ${locale}`) }
+    return translations[key]
   }
 
-  this.substitute = (key, ...substitutions) => {
-    let str = this.translate(key)
+  this.setServerLocale = (guildId, locale) => {
+    servers.set(guildId, locale)
+  }
+
+  this.substitute = (key, guildId, ...substitutions) => {
+    let str = this.translate(key, guildId)
     let fields = {}
     if (typeof substitutions[0] === 'object') { fields = substitutions.shift() }
     const placeholders = (str.match(/%s/g) || []).length + (str.match(/%\([\w\d]+\)/g) || []).length
@@ -37,6 +45,14 @@ module.exports = new function() {
     return str
   }
 
-  this.has = key => lang.hasOwnProperty(key)
-  this.clear = () => { lang = null }
+  this.has = (key, guildId) => locales.get(servers.get(guildId) || defaultLocale).hasOwnProperty(key)
+
+  this.saveServerLocalizations = () => {
+    if (!servers.size) { return }
+    let data = '{\n'
+    for (const [key, value] of servers.entries()) {
+      data += `  "${key}": "${value}",\n`
+    }
+    fs.writeFileSync('./lang/server-localizations.json', data.slice(0, -2) + '\n}')
+  }
 }()
