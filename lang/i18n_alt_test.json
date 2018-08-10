@@ -1,0 +1,4 @@
+{
+  "i18n.test": "alt value",
+  "i18n.combinedSubstitutionTest": "alt %s %(field)"
+}

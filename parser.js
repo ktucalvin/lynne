@@ -1,5 +1,6 @@
 'use strict'
 const { prefix } = require('./config.json')
+const CustomError = require('./custom-error')
 
 function clean(string) {
   return string.toLowerCase().replace(/[ \s!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/g, '')
@@ -9,7 +10,7 @@ function parse(msg) {
   if (!msg.startsWith(prefix)) { return {} }
 
   msg = msg.slice(prefix.length)
-  if (!msg) { throw new SyntaxError('Command not specified') }
+  if (!msg) { return {} }
 
   let args = []
   let start, end
@@ -18,7 +19,7 @@ function parse(msg) {
   function collapseQuote(mark) {
     start++
     end = msg.indexOf(mark, start)
-    if (end === -1) { throw new SyntaxError('Missing quotation mark') }
+    if (end === -1) { throw new CustomError('ParserError', 'parser.missingQuote') }
     if (msg.charAt(end - 1) === '\\') {
       msg = msg.substr(0, end - 1) + msg.slice(end)
       end = msg.indexOf(mark, end + 1)
@@ -78,12 +79,18 @@ function getopts(args, optmap, message) {
     let spec = optmap.get(token)
 
     if (!spec) {
-      if (long) { throw new SyntaxError(`Unrecognized option: ${token}`) }
+      if (long) {
+        throw new CustomError('ParserError', 'parser.unknownOption', { data: { option: token } })
+      }
       for (let c = 0; c < token.length; c++) {
         const char = token.charAt(c)
-        if (!aliases.has(char)) { throw new SyntaxError(`Unrecognized option in sequence: ${char}`) }
+        if (!aliases.has(char)) {
+          throw new CustomError('ParserError', 'parser.unknownOption', { data: { option: char } })
+        }
         spec = aliases.get(char)
-        if (spec.hasParam && token.charAt(c + 1)) { throw new SyntaxError(`Parameterized option between standalones: ${char}`) }
+        if (spec.hasParam && token.charAt(c + 1)) {
+          throw new CustomError('ParserError', 'parser.parameterizedBeforeStandalone', { data: { option: char, flag: token.charAt(c + 1) } })
+        }
         setopt(spec, spec.long, i)
       }
     } else {
