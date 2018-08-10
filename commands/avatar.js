@@ -11,7 +11,7 @@ module.exports = new function() {
       let avatars = ''
       const users = message.mentions.users
       if (!users.size) {
-        message.channel.send(__('avatar.noMentionedUsers'))
+        message.channel.send(__('avatar.noMentionedUsers', message.guild.id))
         return
       }
       for (const member of users.values()) {

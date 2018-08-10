@@ -3,6 +3,5 @@
   "i18n.fieldTest": "hello %(location) from the %(module) test",
   "i18n.placeholderTest": "hello %s %s",
   "i18n.combinedSubstitutionTest": "%s %(field) %s %(field2)",
-  "i18n.insufficientSubstitutionsTest": "%s %s",
-  "set-locale.success": "Successfully set locale to %s"
+  "i18n.insufficientSubstitutionsTest": "%s %s"
 }

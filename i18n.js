@@ -25,12 +25,6 @@ module.exports = new function() {
     return translations[key]
   }
 
-  this.getServerLocale = guildId => servers.get(guildId) || defaultLocale
-
-  this.setServerLocale = (guildId, locale) => { servers.set(guildId, locale) }
-
-  this.getAvailableLocales = () => Array.from(locales.keys())
-
   this.substitute = (key, guildId, ...substitutions) => {
     let str = this.translate(key, guildId)
     let fields = {}
@@ -49,6 +43,10 @@ module.exports = new function() {
 
   this.has = (key, guildId) => locales.get(servers.get(guildId) || defaultLocale).hasOwnProperty(key)
 
+  this.getServerLocale = guildId => servers.get(guildId) || defaultLocale
+  this.setServerLocale = (guildId, locale) => { servers.set(guildId, locale) }
+  this.getAvailableLocales = () => Array.from(locales.keys())
+
   this.saveServerLocalizations = () => {
     if (!servers.size) { return }
     let data = '{\n'
@@ -56,5 +54,12 @@ module.exports = new function() {
       data += `  "${key}": "${value}",\n`
     }
     fs.writeFileSync('./lang/server-localizations.json', data.slice(0, -2) + '\n}')
+  }
+
+  this.useGuild = guildId => {
+    return {
+      __: key => this.translate(key, guildId),
+      _s: (key, ...substitutions) => this.substitute(key, guildId, ...substitutions)
+    }
   }
 }()
