@@ -25,5 +25,13 @@
   "pick.values": ["ace", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "jack", "queen", "king"],
   "pick.insufficientOptions": "You must give me at least two options to pick from!",
   "pick.nonNumericLimit": "At least one limit is not an integer!",
-  "ping.description": "Mystia replies with pong!"
+  "ping.description": "Mystia replies with pong!",
+  "locale.description": "List available locales or set your server's locale",
+  "locale.noBehaviorSpecified": "No subcommand specified.\nUsage: `locale <set|list|get>`",
+  "locale.noPermission": "You don't have permission to do this",
+  "locale.set.noLocaleSpecified": "Error: No locale was specified",
+  "locale.set.localeUnavailable": "Error: Specified locale is unavailable. Try running `~locale list`",
+  "locale.set.success": "Successfully set locale to %s",
+  "locale.list.availableLocales": "Available Locales",
+  "locale.get": "Current locale set to %s"
 }

@@ -5,6 +5,7 @@ class User {
     this.avatarURL = 'avatarURL:' + id
     this.id = id
     this.username = 'test' + id
+    this.permissions = new Map()
   }
 }
 

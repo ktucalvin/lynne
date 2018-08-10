@@ -2,10 +2,10 @@
 require('dotenv').config()
 const { Client } = require('discord.js')
 const { parse } = require('./parser')
-const CustomError = require('./custom-error')
-const commands = require('./command-registry')
 const i18n = require('./i18n')
 i18n.init()
+const CustomError = require('./custom-error')
+const commands = require('./command-registry')
 const __ = i18n.translate
 const _r = i18n.substitute
 
@@ -21,14 +21,14 @@ client.on('message', message => {
     if (!name) { return }
     const command = commands.get(name) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(name))
     if (!command) {
-      message.channel.send(__('main.commandNotFound'))
+      message.channel.send(__('main.commandNotFound', message.guild.id))
       return
     }
     command.execute(message, args)
   } catch (err) {
     if (!(err instanceof CustomError)) {
       console.error(err)
-      message.channel.send(__('main.unknownError'))
+      message.channel.send(__('main.unknownError', message.guild.id))
     }
     if (err.type === 'ParserError') {
       message.channel.send(_r(err.key, err.data))

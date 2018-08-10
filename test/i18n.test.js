@@ -4,6 +4,7 @@ const chai = require('chai')
 const expect = chai.expect
 const mockfs = require('mock-fs')
 const fs = require('fs')
+const { defaultLocale } = require('../config.json')
 const i18n = require('../i18n')
 const __ = i18n.translate
 const _r = i18n.substitute
@@ -31,6 +32,15 @@ describe('i18n', function() {
       i18n.setServerLocale('test', 'i18n')
       i18n.saveServerLocalizations()
       expect(fs.readFileSync('./lang/server-localizations.json', 'utf8')).to.include('"test": "i18n"')
+      mockfs.restore()
+    })
+
+    it('should return the current server\'s locale', function() {
+      expect(i18n.getServerLocale('i18')).to.equal('i18n_test')
+    })
+
+    it('should return the default locale if current server has no data', function() {
+      expect(i18n.getServerLocale('nonexistent server')).to.equal(defaultLocale)
     })
 
     it('should translate a key', function() {
@@ -39,6 +49,10 @@ describe('i18n', function() {
 
     it('should translate differently given guild ID', function() {
       expect(__('i18n.test', 'i18-alt')).to.equal('alternative value')
+    })
+
+    it('should return available locales', function() {
+      expect(i18n.getAvailableLocales()).to.include('i18n_test')
     })
 
     it('should error if missing keys', function() {
@@ -62,7 +76,5 @@ describe('i18n', function() {
     it('should error if not all substitutions could be made', function() {
       expect(() => { _r('i18n.insufficientSubstitutionsTest', 'i18', 'one') }).to.throw('Not enough substitutions provided to replace string:')
     })
-
-    after(mockfs.restore)
   })
 })

@@ -12,6 +12,7 @@ class Message {
     this.content = msg
     this.channel = new Channel()
     this.author = new User('0000')
+    this.member = new User('0000')
     this.guild = {
       id: '0000'
     }

@@ -19,15 +19,17 @@ module.exports = new function() {
 
   this.translate = (key, guildId) => {
     if (!locales.size) { throw new Error('No locales registered') }
-    const locale = servers.get(guildId) || defaultLocale
+    const locale = this.getServerLocale(guildId)
     const translations = locales.get(locale)
     if (!translations.hasOwnProperty(key)) { throw new Error(`Key ${key} not present in ${locale}`) }
     return translations[key]
   }
 
-  this.setServerLocale = (guildId, locale) => {
-    servers.set(guildId, locale)
-  }
+  this.getServerLocale = guildId => servers.get(guildId) || defaultLocale
+
+  this.setServerLocale = (guildId, locale) => { servers.set(guildId, locale) }
+
+  this.getAvailableLocales = () => Array.from(locales.keys())
 
   this.substitute = (key, guildId, ...substitutions) => {
     let str = this.translate(key, guildId)
