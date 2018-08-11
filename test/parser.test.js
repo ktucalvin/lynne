@@ -6,54 +6,54 @@ const { parse, getopts } = require('../parser')
 const { prefix } = require('../config.json')
 
 describe('parser', function() {
-  describe('parse()', function() {
-    it('should not process non-commands', function() {
-      expect(parse('simple message')).to.deep.equal({})
+  describe('#parse', function() {
+    it('returns null name for non-commands', function() {
+      expect(parse('simple message')).to.deep.equal({ name: null })
     })
 
-    it('should parse command with no arguments', function() {
+    it('returns null name if no command specified', function() {
+      expect(parse(prefix)).to.deep.equal({ name: null })
+    })
+
+    it('parses command with no arguments', function() {
       expect(parse(prefix + 'command')).to.deep.equal({ name: 'command', args: [] })
     })
 
-    it('should parse command with multiple arguments', function() {
+    it('parses command with multiple arguments', function() {
       expect(parse(prefix + 'command arg1 arg2')).to.deep.equal({ name: 'command', args: ['arg1', 'arg2'] })
     })
 
-    it('should return empty object if no command specified', function() {
-      expect(parse(prefix)).to.deep.equal({})
-    })
-
-    it('should collapse quoted arguments', function() {
+    it('collapses quoted arguments', function() {
       expect(parse(prefix + 'command "spaced argument" "second argument"'))
         .to.deep.equal({ name: 'command', args: ['spaced argument', 'second argument'] })
     })
 
-    it('should collapse single quoted arguments', function() {
+    it('collapses single quoted arguments', function() {
       expect(parse(prefix + "command 'single quoted' 'arguments with space'"))
         .to.deep.equal({ name: 'command', args: ['single quoted', 'arguments with space'] })
     })
 
-    it('should escape single and double quotes if prefixed with backslash', function() {
+    it('escapes single and double quotes prefixed with backslash', function() {
       expect(parse(prefix + 'command "escaped \\" double"')).to.deep.equal({ name: 'command', args: ['escaped " double'] })
       expect(parse(prefix + "command 'escaped \\' single'")).to.deep.equal({ name: 'command', args: ["escaped ' single"] })
     })
 
-    it('should parse a mix of quoted and non-quoted arguments', function() {
+    it('parses a mix of quoted and non-quoted arguments', function() {
       expect(parse(prefix + ' command "a b c" arg1 \'1 2 3\' arg2'))
         .to.deep.equal({ name: 'command', args: ['a b c', 'arg1', '1 2 3', 'arg2'] })
     })
 
-    it('should throw MissingQuote for invalid quoted argument', function() {
+    it('throws error if missing quotation mark', function() {
       expect(() => { parse(prefix + 'command "invalid quote') }).to.throw(Error).with.property('key', 'parser.missingQuote')
     })
 
-    it('should strip non-quoted whitespace', function() {
-      expect(parse(prefix + 'command   arg1   arg2    "with    whitespace"    '))
-        .to.deep.equal({ name: 'command', args: ['arg1', 'arg2', 'with    whitespace'] })
+    it('strips non-quoted whitespace', function() {
+      expect(parse(prefix + 'command   arg1   arg2    " with  whitespace "  '))
+        .to.deep.equal({ name: 'command', args: ['arg1', 'arg2', ' with  whitespace '] })
     })
   })
 
-  describe('getopts()', function() {
+  describe('#getopts', function() {
     const optmap = new Map()
       .set('standalone', { alias: 's' })
       .set('option', { alias: 'o' })
@@ -61,63 +61,63 @@ describe('parser', function() {
       .set('default-param', { alias: 'd', hasParam: true, default: 'DEFAULT' })
       .set('no-alias')
 
-    it('should set a standalone option', function() {
+    it('sets standalone options', function() {
       expect(getopts(['-s'], optmap).get('flags')).to.include('standalone')
       expect(getopts(['--standalone'], optmap).get('flags')).to.include('standalone')
     })
 
-    it('should set a parameterized option', function() {
+    it('sets parameterized options', function() {
       expect(getopts(['-p', 'param'], optmap).get('parameterized')).to.equal('param')
       expect(getopts(['--parameterized', 'param'], optmap).get('parameterized')).to.equal('param')
     })
 
-    it('should set a default value if an option is missing a parameter', function() {
+    it('sets default value if an option is missing a parameter', function() {
       expect(getopts(['-d'], optmap).get('default-param')).to.equal('DEFAULT')
     })
 
-    it('should not allow another option to be used as a parameter', function() {
+    it('does not allow other options to be used as a parameter', function() {
       expect(getopts(['-d', '-o'], optmap).get('default-param')).to.equal('DEFAULT')
     })
 
-    it('should use the latest specified options', function() {
+    it('uses the latest specified options', function() {
       expect(getopts(['-p', 'first', '-p', 'latest'], optmap).get('parameterized')).to.equal('latest')
     })
 
-    it('should process a sequence of flags', function() {
+    it('processes a sequence of flags', function() {
       const opts = getopts(['-so'], optmap)
       expect(opts.get('flags')).to.deep.equal(['standalone', 'option'])
     })
 
-    it('should still set duplicate flags', function() {
+    it('sets duplicate flags', function() {
       const opts = getopts(['-soso'], optmap)
       expect(opts.get('flags')).to.deep.equal(['standalone', 'option', 'standalone', 'option'])
     })
 
-    it('should strip options from argument array', function() {
+    it('strips options from argument array', function() {
       const args = ['arg1', '-so', 'arg2', '--parameterized', 'param', 'arg3', '--', '-o']
       getopts(args, optmap)
       expect(args).to.deep.equal(['arg1', 'arg2', 'arg3', '-o'])
     })
 
-    it('should reject parameterized flag between standalones', function() {
+    it('rejects parameterized flag between standalones', function() {
       expect(() => { getopts(['-spo'], optmap) }).to.throw(Error).with.property('key', 'parser.parameterizedBeforeStandalone')
     })
 
-    it('should reject nonexistent flag', function() {
+    it('rejects nonexistent flag', function() {
       expect(() => { getopts(['--nonexistent-flag'], optmap) })
         .to.throw(Error).with.deep.property('data', { option: 'nonexistent-flag' })
     })
 
-    it('should reject nonexistent flag in sequence', function() {
+    it('rejects nonexistent flag in sequence', function() {
       expect(() => { getopts(['-sz'], optmap) }).to.throw(Error).with.deep.property('data', { option: 'z' })
     })
 
-    it('should not process flags past a double dash', function() {
+    it('does not process flags past a double dash', function() {
       const opts = getopts(['-s', '--', '-o'], optmap)
       expect(opts).to.not.include('option')
     })
 
-    it('should return immediately if no token is prefixed with a dash', function() {
+    it('returns immediately if no token is prefixed with a dash', function() {
       expect(getopts(['arg1', 'arg2'], optmap)).to.deep.equal(new Map().set('flags', []))
     })
   })

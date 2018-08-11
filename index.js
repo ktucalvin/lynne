@@ -19,19 +19,14 @@ client.on('message', message => {
     const { name, args } = parse(message.content)
     if (!name) { return }
     const command = commands.get(name) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(name))
-    if (!command) {
-      message.channel.send(__('main.commandNotFound'))
-      return
-    }
+    if (!command) { message.channel.send(__('main.commandNotFound')); return }
     command.execute(message, args)
   } catch (err) {
     if (!(err instanceof CustomError)) {
       console.error(err)
       message.channel.send(__('main.unknownError'))
     }
-    if (err.type === 'ParserError') {
-      message.channel.send(_s(err.key, err.data))
-    }
+    if (err.type === 'ParserError') { message.channel.send(_s(err.key, err.data)) }
   }
 })
 
