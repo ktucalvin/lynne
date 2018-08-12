@@ -4,16 +4,13 @@ const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('../../i18n')
 const message = require('./fake-message')
-let help
+let help = require('../help').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('help', function() {
   let spy
-  before(function() {
-    i18n.init()
-    help = require('../help').execute
-  })
+  before(function() { i18n.init() })
   beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
   afterEach(function() { spy.restore() })
 
@@ -30,6 +27,11 @@ describe('help', function() {
   it('generates description of options if optmap available', function() {
     help(message, ['pick'])
     expect(spy).to.have.been.calledWith('pick.opt.card.description')
+  })
+
+  it('localizes any permissions', function() {
+    help(message, ['locale'])
+    expect(spy).to.have.been.calledWith('permission.MANAGE_GUILD')
   })
 
   it('notifies user if command cannot be found', function() {

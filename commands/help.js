@@ -1,8 +1,8 @@
 'use strict'
 const { RichEmbed } = require('discord.js')
 const i18n = require('../i18n')
-const commands = require('../command-registry')
-const enumerableProperties = ['usage', 'aliases', 'permissions', 'cooldown']
+let commands
+const enumerableProperties = ['usage', 'aliases', 'cooldown']
 
 function getOptDescription(command, translate) {
   if (!command.optmap) { return }
@@ -23,6 +23,7 @@ module.exports = new function() {
   this.name = 'help'
   this.usage = 'help [command]'
   this.execute = (message, args) => {
+    if (!commands) { commands = require('../command-registry') }
     const { __ } = i18n.useGuild(message.guild.id)
     const embed = new RichEmbed()
       .setColor('#FD79A8')
@@ -37,14 +38,15 @@ module.exports = new function() {
       const command = commands.get(args[0]) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]))
       if (!command) { message.channel.send(__('main.commandNotFound')); return }
 
-      embed.addField(__('help.property.description'), __(`${command.name}.description`) + getOptDescription(command, __))
+      embed.setAuthor(`Help: ${command.name}`)
+      embed.addField(__('help.property.description'), __(`${command.name}.description`) + (getOptDescription(command, __) || ''))
       for (let i = 0; i < enumerableProperties.length; i++) {
         const property = enumerableProperties[i]
         if (command.hasOwnProperty(property)) {
           embed.addField(__(`help.property.${property}`), command[property])
         }
       }
-      embed.setAuthor(`Help: ${command.name}`)
+      if (command.permission) { embed.addField(__('help.property.permissions'), __(`permission.${command.permission}`)) }
     }
 
     message.channel.send(embed)

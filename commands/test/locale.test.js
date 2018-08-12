@@ -25,13 +25,6 @@ describe('locale', function() {
     expect(spy).to.be.calledWith('locale.noBehaviorSpecified')
   })
 
-  it('requires MANAGE_GUILD permission', function() {
-    message.member.permissions.delete('MANAGE_GUILD')
-    locale(message, ['list'])
-    expect(spy).to.be.calledWith('locale.noPermission')
-    message.member.permissions.set('MANAGE_GUILD')
-  })
-
   describe('get', function() {
     it('returns the current locale', function() {
       locale(message, ['get'])

@@ -6,10 +6,10 @@ const availableLocales = i18n.getAvailableLocales().filter(e => !e.includes('i18
 module.exports = new function() {
   this.name = 'locale'
   this.usage = 'locale <get|list>\nlocale set code'
+  this.permission = 'MANAGE_GUILD'
   this.execute = (message, args) => {
     const { __, _s } = i18n.useGuild(message.guild.id)
     if (args.length === 0) { message.channel.send(__('locale.noBehaviorSpecified')); return }
-    if (!message.member.permissions.has('MANAGE_GUILD')) { message.channel.send(__('locale.noPermission')); return }
 
     switch (args[0]) {
       case 'get':
