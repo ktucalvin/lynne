@@ -105,11 +105,11 @@ describe('parser', function() {
 
     it('rejects nonexistent flag', function() {
       expect(() => { getopts(['--nonexistent-flag'], optmap) })
-        .to.throw(Error).with.deep.property('data', { option: 'nonexistent-flag' })
+        .to.throw(Error).with.deep.property('option', 'nonexistent-flag')
     })
 
     it('rejects nonexistent flag in sequence', function() {
-      expect(() => { getopts(['-sz'], optmap) }).to.throw(Error).with.deep.property('data', { option: 'z' })
+      expect(() => { getopts(['-sz'], optmap) }).to.throw(Error).with.deep.property('option', 'z')
     })
 
     it('does not process flags past a double dash', function() {

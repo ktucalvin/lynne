@@ -2,7 +2,7 @@
 class CustomError extends Error {
   constructor(type, key, properties) {
     super()
-    if (Error.captureStackTrace) { Error.captureStackTrace(this, CustomError) }
+    Error.captureStackTrace(this, CustomError)
     if (typeof key === 'string') {
       this.key = key
       Object.assign(this, properties)

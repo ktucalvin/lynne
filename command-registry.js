@@ -7,14 +7,13 @@ const registry = new Collection()
 function walk(dir) {
   const files = fs.readdirSync(dir)
   for (let file of files) {
-    if (file !== 'test') {
-      file = path.join(dir, file)
-      if (fs.statSync(file).isDirectory()) {
-        walk(file)
-      } else {
-        const command = require('./' + file)
-        registry.set(command.name, command)
-      }
+    if (file === 'test') { continue }
+    file = path.join(dir, file)
+    if (fs.statSync(file).isDirectory()) {
+      walk(file)
+    } else {
+      const command = require('./' + file)
+      registry.set(command.name, command)
     }
   }
 }

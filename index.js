@@ -26,7 +26,7 @@ client.on('message', message => {
       console.error(err)
       message.channel.send(__('main.unknownError'))
     }
-    if (err.type === 'ParserError') { message.channel.send(_s(err.key, err.data)) }
+    if (err.type === 'ParserError') { message.channel.send(_s(err.key, { option: err.option, flag: err.flag })) }
   }
 })
 

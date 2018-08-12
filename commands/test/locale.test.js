@@ -1,74 +1,67 @@
 'use strict'
 /* eslint-env mocha */
 const chai = require('chai')
-const expect = chai.expect
-chai.use(require('chai-as-promised'))
 const sinon = require('sinon')
 const i18n = require('../../i18n')
 const message = require('./fake-message')
 let locale
-let spy
+const expect = chai.expect
+chai.use(require('sinon-chai'))
 
 describe('locale', function() {
+  let spy
   before(function() {
     i18n.init()
-    i18n.setServerLocale('localeTest', 'en_US')
+    message.member.permissions.set('MANAGE_GUILD')
+
+    // Lazy load to allow i18n to init first, since command caches available locales
     locale = require('../locale').execute
   })
+  beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
+  afterEach(function() { spy.restore() })
 
-  beforeEach(function() {
-    message.guild.id = 'localeTest'
-    message.member.permissions.set('MANAGE_GUILD')
-    spy = sinon.spy(message.channel, 'send')
-  })
-
-  afterEach(function() {
-    spy.restore()
-  })
-
-  after(function() { message.guild.id = '0000' })
-
-  it('should require a subcommand specified', function() {
+  it('requires a subcommand specified', function() {
     locale(message, [])
-    return expect(spy.returnValues[0]).to.eventually.have.nested.property('content').include('No subcommand')
+    expect(spy).to.be.calledWith('locale.noBehaviorSpecified')
   })
 
-  it('should require MANAGE_GUILD permission', function() {
+  it('requires MANAGE_GUILD permission', function() {
     message.member.permissions.delete('MANAGE_GUILD')
     locale(message, ['list'])
-    return expect(spy.returnValues[0]).to.eventually.have.nested.property('content').include('permission')
+    expect(spy).to.be.calledWith('locale.noPermission')
+    message.member.permissions.set('MANAGE_GUILD')
   })
 
   describe('get', function() {
-    it('should return the current locale', function() {
+    it('returns the current locale', function() {
       locale(message, ['get'])
-      return expect(spy.returnValues[0]).to.eventually.have.nested.property('content').include('set to en_US')
+      expect(spy).to.be.calledWith('locale.get')
     })
   })
 
   describe('list', function() {
-    it('should list available locales', function() {
+    it('lists available locales', function() {
       locale(message, ['list'])
-      return expect(spy.returnValues[0]).to.eventually.have.deep.nested.property('content.title').include('Available')
+      expect(spy).to.be.calledWith('locale.list.availableLocales')
     })
   })
 
   describe('set', function() {
-    it('should require specified locale', function() {
+    it('requires a locale is specified', function() {
       locale(message, ['set'])
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('No locale')
+      expect(spy).to.be.calledWith('locale.set.noLocaleSpecified')
     })
 
-    it('should notify user if locale is unavailable', function() {
+    it('notifies user if locale is unavailable', function() {
       locale(message, ['set', 'nonexistent-locale'])
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('locale is unavailable')
+      expect(spy).to.be.calledWith('locale.set.localeUnavailable')
     })
 
-    it('should set server locale', function() {
-      i18n.setServerLocale('localeTest', 'i18n_test')
+    it('sets server locale', function() {
+      i18n.setServerLocale(message.guild.id, 'i18n_test')
       locale(message, ['set', 'en_US'])
-      expect(i18n.getServerLocale('localeTest')).to.equal('en_US')
-      return expect(spy.returnValues[0]).to.eventually.have.property('content').include('set locale to')
+      expect(i18n.getServerLocale(message.guild.id)).to.equal('en_US')
+      expect(spy).to.be.calledWith('locale.set.success')
     })
   })
 })

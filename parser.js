@@ -70,13 +70,13 @@ module.exports = new function() {
       let spec = optmap.get(token)
 
       if (!spec) {
-        if (long) { throw new CustomError('ParserError', 'parser.unknownOption', { data: { option: token } }) }
+        if (long) { throw new CustomError('ParserError', { key: 'parser.unknownOption', option: token }) }
         for (let c = 0; c < token.length; c++) {
           const char = token.charAt(c)
-          if (!aliases.has(char)) { throw new CustomError('ParserError', 'parser.unknownOption', { data: { option: char } }) }
+          if (!aliases.has(char)) { throw new CustomError('ParserError', { key: 'parser.unknownOption', option: char }) }
           spec = aliases.get(char)
           if (spec.hasParam && token.charAt(c + 1)) {
-            throw new CustomError('ParserError', 'parser.parameterizedBeforeStandalone', { data: { option: char, flag: token.charAt(c + 1) } })
+            throw new CustomError('ParserError', { key: 'parser.parameterizedBeforeStandalone', option: char, flag: token.charAt(c + 1) })
           }
           setopt(spec, spec.long, i)
         }

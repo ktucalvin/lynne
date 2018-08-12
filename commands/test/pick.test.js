@@ -1,57 +1,52 @@
 'use strict'
 /* eslint-env mocha */
 const chai = require('chai')
-const expect = chai.expect
-chai.use(require('chai-as-promised'))
 const sinon = require('sinon')
 const i18n = require('../../i18n')
 const message = require('./fake-message')
 const pick = require('../pick').execute
-let spy
+const expect = chai.expect
+chai.use(require('sinon-chai'))
 
 describe('pick', function() {
+  let translate, substitute
   before(function() { i18n.init() })
   beforeEach(function() {
-    spy = sinon.spy(message.channel, 'send')
+    translate = sinon.spy(i18n, 'translate')
+    substitute = sinon.spy(i18n, 'substitute')
   })
-
   afterEach(function() {
-    spy.restore()
+    translate.restore()
+    substitute.restore()
   })
 
-  it('should notify user if less than two arguments provided', function() {
+  it('notifies user if less than two arguments provided', function() {
     pick(message, [])
-    return expect(spy.returnValues[0]).to.eventually.have.property('content').include('at least two')
+    expect(translate).to.be.calledWith('pick.insufficientOptions')
   })
 
-  it('should pick from a range of given options', function() {
-    pick(message, ['a', 'a'])
-    return expect(spy.returnValues[0]).to.eventually.have.property('content').equal('I choose a')
+  it('picks from a range of given options', function() {
+    pick(message, ['a', 'b'])
+    expect(substitute).to.be.calledWith('pick.choose', sinon.match.string)
   })
 
-  it('should pick from a numeric range if passed -r', function() {
+  it('picks from a numeric range if passed -r', function() {
     pick(message, ['-r', '--', '-100', '100'])
-    return expect(spy.returnValues[0]).to.eventually.have.property('content').satisfy(str => {
-      let num = str.slice('I choose '.length)
-      return num > -100 && num < 100
-    })
+    expect(substitute).to.be.calledWith('pick.choose', sinon.match(val => val >= -100 && val <= 100, 'chosen value not in range'))
   })
 
-  it('should automatically swap numeric bounds if given out of order', function() {
+  it('automatically swaps numeric bounds if given out of order', function() {
     pick(message, ['-r', '--', '100', '-100'])
-    return expect(spy.returnValues[0]).to.eventually.have.property('content').satisfy(str => {
-      let num = str.slice('I choose '.length)
-      return num > -100 && num < 100
-    })
+    expect(substitute).to.be.calledWith('pick.choose', sinon.match(val => val >= -100 && val <= 100, 'chosen value not in range'))
   })
 
-  it('should pick a card if passed -c', function() {
-    pick(message, ['-c'])
-    return expect(spy.returnValues[0]).to.eventually.have.property('content').include('I got')
-  })
-
-  it('should reject non-numeric input for ranged pick', function() {
+  it('rejects non-numeric input for ranged pick', function() {
     pick(message, ['-r', '1', 'A'])
-    return expect(spy.returnValues[0]).to.eventually.have.property('content').include('not an integer')
+    expect(translate).to.be.calledWith('pick.nonNumericLimit')
+  })
+
+  it('picks a card if passed -c', function() {
+    pick(message, ['-c'])
+    expect(substitute).to.be.calledWith('pick.card')
   })
 })

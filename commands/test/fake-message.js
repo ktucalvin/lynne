@@ -3,7 +3,15 @@ const User = require('./fake-user')
 
 class Channel {
   constructor() {
-    this.send = msg => Promise.resolve(new Message(msg))
+    this.sendPromise = false
+    this.send = msg => {
+      if (this.sendPromise === 'promise') { return Promise.resolve(new Message(msg)) }
+      return msg
+    }
+  }
+
+  setSendType(type) {
+    this.sendPromise = type
   }
 }
 
