@@ -1,14 +1,29 @@
 'use strict'
+const { RichEmbed } = require('discord.js')
+const i18n = require('../i18n')
+const commands = require('../command-registry')
+const enumerableProperties = ['usage', 'aliases', 'permissions', 'cooldown']
+
+function getOptDescription(command, translate) {
+  if (!command.optmap) { return }
+  const opts = Array.from(command.optmap.keys()).sort()
+  let description = ''
+  for (let i = 0; i < opts.length; i++) {
+    const option = opts[i]
+    const spec = command.optmap.get(option)
+    const optDesc = translate(`${command.name}.opt.${option}.description`)
+    description += '\n`'
+    if (spec.alias) { description += `-${spec.alias} ` }
+    description += `--${option}\`\n\`${optDesc}\``
+  }
+  return description
+}
+
 module.exports = new function() {
-  const { RichEmbed } = require('discord.js')
-  const i18n = require('../i18n')
-  const enumerableProperties = ['usage', 'aliases', 'permissions', 'cooldown']
   this.name = 'help'
-  this.description = 'help.description'
   this.usage = 'help [command]'
   this.execute = (message, args) => {
     const { __ } = i18n.useGuild(message.guild.id)
-    const commands = require('../command-registry')
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setTitle(__('help.wikiExplanation'))
@@ -26,28 +41,12 @@ module.exports = new function() {
       for (let i = 0; i < enumerableProperties.length; i++) {
         const property = enumerableProperties[i]
         if (command.hasOwnProperty(property)) {
-          const value = command[property]
-          embed.addField(__(`help.property.${property}`), i18n.has(value, message.guild.id) ? __(value) : value)
+          embed.addField(__(`help.property.${property}`), command[property])
         }
       }
       embed.setAuthor(`Help: ${command.name}`)
     }
 
     message.channel.send(embed)
-  }
-
-  function getOptDescription(command, translate) {
-    if (!command.optmap) { return }
-    const opts = Array.from(command.optmap.keys()).sort()
-    let description = ''
-    for (let i = 0; i < opts.length; i++) {
-      const option = opts[i]
-      const spec = command.optmap.get(option)
-      const optDesc = translate(`${command.name}.opt.${option}.description`)
-      description += '\n`'
-      if (spec.alias) { description += `-${spec.alias} ` }
-      description += `--${option}\`\n\`${optDesc}\``
-    }
-    return description
   }
 }()

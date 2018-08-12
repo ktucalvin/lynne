@@ -91,6 +91,20 @@ describe('i18n', function() {
     })
   })
 
+  describe('#has', function() {
+    before(setupSuite)
+
+    it('returns if key is present in locale', function() {
+      expect(i18n.has('i18n.test', 'i18')).to.equal(true)
+      expect(i18n.has('nonexistent-key', 'i18')).to.equal(false)
+    })
+
+    it('falls back to default locale if guild not specified', function() {
+      expect(i18n.has('i18n.test')).to.equal(false)
+      expect(i18n.has('main.commandNotFound')).to.equal(true)
+    })
+  })
+
   describe('#getServerLocale', function() {
     before(setupSuite)
 

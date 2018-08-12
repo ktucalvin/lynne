@@ -2,8 +2,7 @@
 module.exports = {
   name: 'echo',
   aliases: ['say'],
-  description: 'echo.description',
-  usage: 'echo <message>',
+  usage: 'echo [string]',
   execute(message, args) {
     if (!args.length) {
       message.channel.send('_ _') // send blank line

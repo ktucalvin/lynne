@@ -4,13 +4,16 @@ const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('../../i18n')
 const message = require('./fake-message')
-const help = require('../help').execute
+let help
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('help', function() {
   let spy
-  before(function() { i18n.init() })
+  before(function() {
+    i18n.init()
+    help = require('../help').execute
+  })
   beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
   afterEach(function() { spy.restore() })
 

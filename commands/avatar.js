@@ -1,8 +1,8 @@
 'use strict'
+const i18n = require('../i18n')
+
 module.exports = new function() {
-  const i18n = require('../i18n')
   this.name = 'avatar'
-  this.description = 'avatar.description'
   this.usage = 'avatar [user]'
   this.execute = (message, args) => {
     const { __ } = i18n.useGuild(message.guild.id)
