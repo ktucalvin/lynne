@@ -1,5 +1,6 @@
 'use strict'
 const fs = require('fs')
+const Utils = require('./utils')
 let { defaultLocale } = require('./config.json')
 const locales = new Map()
 const servers = new Map()
@@ -9,7 +10,7 @@ module.exports = new function() {
     const availableLocales = fs.readdirSync('./lang').filter(e => e !== 'server-localizations.json')
     for (let i = 0; i < availableLocales.length; i++) {
       const locale = availableLocales[i]
-      locales.set(locale.slice(0, -5), require(`./lang/${locale}`))
+      locales.set(locale.slice(0, -5), Utils.flatten(require(`./lang/${locale}`)))
     }
     if (fs.existsSync('./lang/server-localizations.json')) {
       const localizations = require('./lang/server-localizations.json')

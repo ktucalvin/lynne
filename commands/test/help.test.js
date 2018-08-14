@@ -26,7 +26,7 @@ describe('help', function() {
 
   it('generates description of options if optmap available', function() {
     help(message, ['pick'])
-    expect(spy).to.have.been.calledWith('pick.opt.card.description')
+    expect(spy).to.have.been.calledWith('pick.card.description')
   })
 
   it('localizes any permissions', function() {

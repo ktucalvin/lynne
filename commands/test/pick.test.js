@@ -42,11 +42,11 @@ describe('pick', function() {
 
   it('rejects non-numeric input for ranged pick', function() {
     pick(message, ['-r', '1', 'A'])
-    expect(translate).to.be.calledWith('pick.nonNumericLimit')
+    expect(translate).to.be.calledWith('pick.ranged.nonNumericLimit')
   })
 
   it('picks a card if passed -c', function() {
     pick(message, ['-c'])
-    expect(substitute).to.be.calledWith('pick.card')
+    expect(substitute).to.be.calledWith('pick.card.draw')
   })
 })

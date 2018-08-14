@@ -17,7 +17,7 @@ module.exports = new function() {
     const behavior = getopts(args, this.optmap).get('flags').pop()
 
     if (behavior === 'card') {
-      message.channel.send(_s('pick.card', { value: __('pick.values')[randInt(0, 12)], suit: __('pick.suits')[randInt(0, 3)] }))
+      message.channel.send(_s('pick.card.draw', { value: __('pick.card.values')[randInt(0, 12)], suit: __('pick.card.suits')[randInt(0, 3)] }))
       return
     }
 
@@ -25,7 +25,7 @@ module.exports = new function() {
 
     if (behavior === 'ranged') {
       if (!parseInt(args[0]) || !parseInt(args[1])) {
-        message.channel.send(__('pick.nonNumericLimit'))
+        message.channel.send(__('pick.ranged.nonNumericLimit'))
         return
       }
       if (args[0] > args[1]) {

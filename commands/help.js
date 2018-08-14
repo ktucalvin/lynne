@@ -11,7 +11,7 @@ function getOptDescription(command, translate) {
   for (let i = 0; i < opts.length; i++) {
     const option = opts[i]
     const spec = command.optmap.get(option)
-    const optDesc = translate(`${command.name}.opt.${option}.description`)
+    const optDesc = translate(`${command.name}.${option}.description`)
     description += '\n`'
     if (spec.alias) { description += `-${spec.alias} ` }
     description += `--${option}\`\n\`${optDesc}\``
