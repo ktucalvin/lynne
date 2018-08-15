@@ -1,10 +1,10 @@
 'use strict'
 const i18n = require('$lib/i18n')
 
-module.exports = new function() {
-  this.name = 'avatar'
-  this.usage = 'avatar [user]'
-  this.execute = (message, args) => {
+module.exports = {
+  name: 'avatar',
+  usage: 'avatar [user]',
+  execute(message, args) {
     const { __ } = i18n.useGuild(message.guild.id)
     if (args.length === 0) {
       message.channel.send(message.author.avatarURL)
@@ -18,4 +18,4 @@ module.exports = new function() {
       message.channel.send(avatars)
     }
   }
-}()
+}

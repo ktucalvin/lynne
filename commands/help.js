@@ -19,10 +19,10 @@ function getOptDescription(command, translate) {
   return description
 }
 
-module.exports = new function() {
-  this.name = 'help'
-  this.usage = 'help [command]'
-  this.execute = (message, args) => {
+module.exports = {
+  name: 'help',
+  usage: 'help [command]',
+  execute(message, args) {
     if (!commands) { commands = require('$lib/registry') }
     const { __ } = i18n.useGuild(message.guild.id)
     const embed = new RichEmbed()
@@ -51,4 +51,4 @@ module.exports = new function() {
 
     message.channel.send(embed)
   }
-}()
+}
