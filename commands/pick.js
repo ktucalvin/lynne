@@ -1,6 +1,6 @@
 'use strict'
-const i18n = require('../i18n')
-const { getopts } = require('../parser')
+const i18n = require('$lib/i18n')
+const { getopts } = require('$lib/parser')
 
 function randInt(lo, hi) {
   return Math.round(Math.random() * (hi - lo)) + +lo

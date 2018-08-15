@@ -1,9 +1,10 @@
 'use strict'
 /* eslint-env mocha */
+require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
-const i18n = require('../../i18n')
-const message = require('./fake-message')
+const i18n = require('$lib/i18n')
+const message = require('$structures/FakeMessage')
 const pick = require('../pick').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))

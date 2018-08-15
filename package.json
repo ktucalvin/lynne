@@ -6,11 +6,17 @@
   "directories": {
     "test": "test"
   },
+  "_moduleAliases": {
+    "$config": "config.json",
+    "$lib": "lib",
+    "$structures": "lib/structures"
+  },
   "dependencies": {
     "discord.js": "^11.3.2",
     "dotenv": "^5.0.1",
     "erlpack": "^0.1.0",
     "libsodium-wrappers": "^0.7.3",
+    "module-alias": "^2.1.0",
     "node-opus": "^0.2.7",
     "uws": "^9.148.0"
   },

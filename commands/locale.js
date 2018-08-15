@@ -1,6 +1,6 @@
 'use strict'
 const { RichEmbed } = require('discord.js')
-const i18n = require('../i18n')
+const i18n = require('$lib/i18n')
 const availableLocales = i18n.getAvailableLocales().filter(e => !e.includes('i18n'))
 
 module.exports = new function() {

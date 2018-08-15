@@ -1,6 +1,6 @@
 'use strict'
 const { RichEmbed } = require('discord.js')
-const i18n = require('../i18n')
+const i18n = require('$lib/i18n')
 let commands
 const enumerableProperties = ['usage', 'aliases', 'cooldown']
 
@@ -23,7 +23,7 @@ module.exports = new function() {
   this.name = 'help'
   this.usage = 'help [command]'
   this.execute = (message, args) => {
-    if (!commands) { commands = require('../command-registry') }
+    if (!commands) { commands = require('$lib/registry') }
     const { __ } = i18n.useGuild(message.guild.id)
     const embed = new RichEmbed()
       .setColor('#FD79A8')

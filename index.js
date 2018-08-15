@@ -1,11 +1,12 @@
 'use strict'
 require('dotenv').config()
+require('module-alias/register')
 const { Client } = require('discord.js')
-const { parse } = require('./parser')
-const i18n = require('./i18n')
+const { parse } = require('$lib/parser')
+const i18n = require('$lib/i18n')
 i18n.init()
-const CustomError = require('./custom-error')
-const commands = require('./command-registry')
+const CustomError = require('$structures/CustomError')
+const commands = require('$lib/registry')
 
 const client = new Client()
 client.on('ready', () => {
