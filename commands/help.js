@@ -1,7 +1,7 @@
 'use strict'
 const { RichEmbed } = require('discord.js')
 const i18n = require('$lib/i18n')
-let commands
+let registry
 const enumerableProperties = ['usage', 'aliases', 'cooldown']
 
 function getOptDescription(command, translate) {
@@ -23,7 +23,7 @@ module.exports = {
   name: 'help',
   usage: 'help [command]',
   execute(message, args) {
-    if (!commands) { commands = require('$lib/registry') }
+    if (!registry) { registry = require('$lib/registry') }
     const { __ } = i18n.useGuild(message.guild.id)
     const embed = new RichEmbed()
       .setColor('#FD79A8')
@@ -33,9 +33,9 @@ module.exports = {
     if (args.length === 0) {
       embed
         .setAuthor(__('help.title'))
-        .setDescription(__('help.getDetailedInformation') + commands.keyArray().join('\n'))
+        .setDescription(__('help.getDetailedInformation') + registry.keyArray().join('\n'))
     } else {
-      const command = commands.get(args[0]) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]))
+      const command = registry.fetch(args[0])
       if (!command) { message.channel.send(__('main.commandNotFound')); return }
 
       embed.setAuthor(`Help: ${command.name}`)

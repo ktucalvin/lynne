@@ -5,7 +5,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
 const message = require('$structures/FakeMessage')
-let locale = require('../locale').execute
+const locale = require('../locale').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 

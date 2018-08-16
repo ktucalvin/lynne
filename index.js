@@ -5,7 +5,7 @@ const { Client } = require('discord.js')
 const { parse } = require('$lib/parser')
 const i18n = require('$lib/i18n')
 const CustomError = require('$structures/CustomError')
-const commands = require('$lib/registry')
+const registry = require('$lib/registry')
 
 const client = new Client()
 client.on('ready', () => {
@@ -18,7 +18,7 @@ client.on('message', message => {
   try {
     const { name, args } = parse(message.content)
     if (!name) { return }
-    const command = commands.get(name) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(name))
+    const command = registry.fetch(name)
     const permissions = message.member.permissions
 
     if (!command) { message.channel.send(__('main.commandNotFound')); return }
