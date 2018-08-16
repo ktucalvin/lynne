@@ -5,19 +5,13 @@ const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
 const message = require('$structures/FakeMessage')
-let locale
+let locale = require('../locale').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('locale', function() {
   let spy
-  before(function() {
-    i18n.init()
-    message.member.permissions.set('MANAGE_GUILD')
-
-    // Lazy load to allow i18n to init first, since command caches available locales
-    locale = require('../locale').execute
-  })
+  before(function() { message.member.permissions.set('MANAGE_GUILD') })
   beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
   afterEach(function() { spy.restore() })
 

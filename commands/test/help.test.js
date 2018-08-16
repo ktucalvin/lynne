@@ -11,7 +11,6 @@ chai.use(require('sinon-chai'))
 
 describe('help', function() {
   let spy
-  before(function() { i18n.init() })
   beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
   afterEach(function() { spy.restore() })
 

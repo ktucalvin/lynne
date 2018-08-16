@@ -12,7 +12,6 @@ chai.use(require('sinon-chai'))
 
 describe('avatar', function() {
   let spy
-  before(function() { i18n.init() })
   beforeEach(function() { spy = sinon.spy(message.channel, 'send') })
   afterEach(function() {
     spy.restore()

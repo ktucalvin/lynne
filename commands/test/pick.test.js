@@ -11,7 +11,6 @@ chai.use(require('sinon-chai'))
 
 describe('pick', function() {
   let translate, substitute
-  before(function() { i18n.init() })
   beforeEach(function() {
     translate = sinon.spy(i18n, 'translate')
     substitute = sinon.spy(i18n, 'substitute')

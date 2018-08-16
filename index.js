@@ -4,7 +4,6 @@ require('module-alias/register')
 const { Client } = require('discord.js')
 const { parse } = require('$lib/parser')
 const i18n = require('$lib/i18n')
-i18n.init()
 const CustomError = require('$structures/CustomError')
 const commands = require('$lib/registry')
 
