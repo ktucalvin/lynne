@@ -45,7 +45,7 @@
       "description": "Pick a card from a standard 52-card deck",
       "draw": "I got the %(value) of %(suit)",
       "suits": ["diamonds", "spades", "hearts", "clubs"],
-      "values": ["ace", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "jack", "queen", "king"]
+      "values": ["ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "jack", "queen", "king"]
     },
     "ranged": {
       "description": "Pick from a numeric range instead. Requires two numeric inputs",

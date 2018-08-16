@@ -1,13 +1,10 @@
 'use strict'
 const i18n = require('$lib/i18n')
 const { getopts } = require('$lib/parser')
+const randInt = require('$lib/utils').randInt
 const optmap = new Map()
   .set('ranged', { alias: 'r' })
   .set('card', { alias: 'c' })
-
-function randInt(lo, hi) {
-  return Math.round(Math.random() * (hi - lo)) + +lo
-}
 
 module.exports = {
   name: 'pick',
