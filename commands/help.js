@@ -2,7 +2,6 @@
 const { RichEmbed } = require('discord.js')
 const i18n = require('$lib/i18n')
 let registry
-const enumerableProperties = ['usage', 'aliases', 'cooldown']
 
 function getOptDescription(command, translate) {
   if (!command.optmap) { return }
@@ -21,7 +20,7 @@ function getOptDescription(command, translate) {
 
 module.exports = {
   name: 'help',
-  usage: 'help [command]',
+  usage: ['help [command]'],
   execute(message, args) {
     if (!registry) { registry = require('$lib/registry') }
     const { __ } = i18n.useGuild(message.guild.id)
@@ -38,14 +37,12 @@ module.exports = {
       const command = registry.fetch(args[0])
       if (!command) { message.channel.send(__('main.commandNotFound')); return }
 
-      embed.setAuthor(`Help: ${command.name}`)
-      embed.addField(__('help.property.description'), __(`${command.name}.description`) + (getOptDescription(command, __) || ''))
-      for (let i = 0; i < enumerableProperties.length; i++) {
-        const property = enumerableProperties[i]
-        if (command.hasOwnProperty(property)) {
-          embed.addField(__(`help.property.${property}`), command[property])
-        }
-      }
+      embed
+        .setAuthor(`Help: ${command.name}`)
+        .addField(__('help.property.description'), __(`${command.name}.description`) + (getOptDescription(command, __) || ''))
+        .addField(__('help.property.usage'), command.usage.map(e => '`' + e + '`').join('\n'))
+      if (command.aliases) { embed.addField(__('help.property.aliases'), command.aliases) }
+      if (command.cooldown) { embed.addField(__('help.property.cooldown'), command.cooldown) }
       if (command.permission) { embed.addField(__('help.property.permissions'), __(`permission.${command.permission}`)) }
     }
 

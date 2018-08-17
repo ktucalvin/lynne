@@ -3,7 +3,7 @@ const i18n = require('$lib/i18n')
 
 module.exports = {
   name: 'avatar',
-  usage: 'avatar [user]',
+  usage: ['avatar [user]'],
   execute(message, args) {
     const { __ } = i18n.useGuild(message.guild.id)
     if (args.length === 0) {

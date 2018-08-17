@@ -5,7 +5,7 @@ const availableLocales = i18n.getAvailableLocales().filter(e => !e.includes('i18
 
 module.exports = {
   name: 'locale',
-  usage: 'locale <get|list>\nlocale set code',
+  usage: ['locale <get|list>', 'locale set code'],
   permission: 'MANAGE_GUILD',
   execute(message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
