@@ -4,7 +4,7 @@ require('module-alias/register')
 const { Client } = require('discord.js')
 const { parse } = require('$lib/parser')
 const i18n = require('$lib/i18n')
-const CustomError = require('$structures/CustomError')
+const OperationalError = require('$structures/OperationalError')
 const registry = require('$lib/registry')
 
 const client = new Client()
@@ -29,19 +29,20 @@ client.on('message', message => {
 
     command.execute(message, args)
   } catch (err) {
-    if (!(err instanceof CustomError)) {
-      console.error(err)
-      message.channel.send(__('main.unknownError'))
+    if (err instanceof OperationalError) {
+      message.channel.send(_s(err.key, err.data))
+    } else {
+      console.error(`Terminating process due to non-user error while processing command:\n${err}`)
+      close(1)
     }
-    if (err.type === 'ParserError') { message.channel.send(_s(err.key, { option: err.option, flag: err.flag })) }
   }
 })
 
-function close() {
+function close(status) {
   console.log('\nMystia is going to sleep!')
   i18n.saveServerLocalizations()
   client.destroy()
-  process.exit(0)
+  process.exit(status || 0)
 }
 
 process.on('SIGINT', close)
