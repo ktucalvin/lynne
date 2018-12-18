@@ -9,32 +9,32 @@ let help = require('../help').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
-describe('help', function() {
+describe('help', function () {
   let spy
-  beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
-  afterEach(function() { spy.restore() })
+  beforeEach(function () { spy = sinon.spy(i18n, 'translate') })
+  afterEach(function () { spy.restore() })
 
-  it('prints a list of commands given no arguments', function() {
+  it('prints a list of commands given no arguments', function () {
     help(message, [])
     expect(spy).to.have.been.calledWith('help.getDetailedInformation')
   })
 
-  it('prints a detailed description of a command if given argument', function() {
+  it('prints a detailed description of a command if given argument', function () {
     help(message, ['ping'])
     expect(spy).to.have.been.calledWith('help.property.description')
   })
 
-  it('generates description of options if optmap available', function() {
+  it('generates description of options if optmap available', function () {
     help(message, ['pick'])
     expect(spy).to.have.been.calledWith('pick.card.description')
   })
 
-  it('localizes any permissions', function() {
+  it('localizes any permissions', function () {
     help(message, ['locale'])
     expect(spy).to.have.been.calledWith('permission.MANAGE_GUILD')
   })
 
-  it('notifies user if command cannot be found', function() {
+  it('notifies user if command cannot be found', function () {
     help(message, ['nonexistantcommand'])
     expect(spy).to.have.been.calledWith('main.commandNotFound')
   })

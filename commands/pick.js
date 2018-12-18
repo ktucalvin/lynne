@@ -10,7 +10,7 @@ module.exports = {
   name: 'pick',
   optmap,
   usage: ['pick -c', 'pick [-r] option1 option2 [options...]'],
-  execute(message, args) {
+  execute (message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
     const behavior = getopts(args, optmap).get('flags').pop()
 

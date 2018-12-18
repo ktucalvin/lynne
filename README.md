@@ -32,4 +32,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Discord.js (https://discord.js.org)
 * StandardJS (https://standardjs.com/)
 * ZUN
-* Avatar by Kuroneko no Toorimichi

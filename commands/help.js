@@ -3,7 +3,7 @@ const { RichEmbed } = require('discord.js')
 const i18n = require('$lib/i18n')
 let registry
 
-function getOptDescription(command, translate) {
+function getOptDescription (command, translate) {
   if (!command.optmap) { return }
   const opts = Array.from(command.optmap.keys()).sort()
   let description = ''
@@ -21,7 +21,7 @@ function getOptDescription(command, translate) {
 module.exports = {
   name: 'help',
   usage: ['help [command]'],
-  execute(message, args) {
+  execute (message, args) {
     if (!registry) { registry = require('$lib/registry') }
     const { __ } = i18n.useGuild(message.guild.id)
     const embed = new RichEmbed()

@@ -9,43 +9,43 @@ const locale = require('../locale').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
-describe('locale', function() {
+describe('locale', function () {
   let spy
-  before(function() { message.member.permissions.set('MANAGE_GUILD') })
-  beforeEach(function() { spy = sinon.spy(i18n, 'translate') })
-  afterEach(function() { spy.restore() })
+  before(function () { message.member.permissions.set('MANAGE_GUILD') })
+  beforeEach(function () { spy = sinon.spy(i18n, 'translate') })
+  afterEach(function () { spy.restore() })
 
-  it('requires a subcommand specified', function() {
+  it('requires a subcommand specified', function () {
     locale(message, [])
     expect(spy).to.be.calledWith('locale.noBehaviorSpecified')
   })
 
-  describe('get', function() {
-    it('returns the current locale', function() {
+  describe('get', function () {
+    it('returns the current locale', function () {
       locale(message, ['get'])
       expect(spy).to.be.calledWith('locale.get')
     })
   })
 
-  describe('list', function() {
-    it('lists available locales', function() {
+  describe('list', function () {
+    it('lists available locales', function () {
       locale(message, ['list'])
       expect(spy).to.be.calledWith('locale.list.availableLocales')
     })
   })
 
-  describe('set', function() {
-    it('requires a locale is specified', function() {
+  describe('set', function () {
+    it('requires a locale is specified', function () {
       locale(message, ['set'])
       expect(spy).to.be.calledWith('locale.set.noLocaleSpecified')
     })
 
-    it('notifies user if locale is unavailable', function() {
+    it('notifies user if locale is unavailable', function () {
       locale(message, ['set', 'nonexistent-locale'])
       expect(spy).to.be.calledWith('locale.set.localeUnavailable')
     })
 
-    it('sets server locale', function() {
+    it('sets server locale', function () {
       i18n.setServerLocale(message.guild.id, 'i18n_test')
       locale(message, ['set', 'en_US'])
       expect(i18n.getServerLocale(message.guild.id)).to.equal('en_US')

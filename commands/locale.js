@@ -7,7 +7,7 @@ module.exports = {
   name: 'locale',
   usage: ['locale <get|list>', 'locale set code'],
   permission: 'MANAGE_GUILD',
-  execute(message, args) {
+  execute (message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
     if (args.length === 0) { message.channel.send(__('locale.noBehaviorSpecified')); return }
 
