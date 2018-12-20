@@ -4,14 +4,17 @@ require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
-const message = require('$structures/FakeMessage')
+const Message = require('$structures/FakeMessage')
 let help = require('../help').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('help', function () {
-  let spy
-  beforeEach(function () { spy = sinon.spy(i18n, 'translate') })
+  let spy, message
+  beforeEach(function () {
+    message = new Message()
+    spy = sinon.spy(i18n, 'translate')
+  })
   afterEach(function () { spy.restore() })
 
   it('prints a list of commands given no arguments', function () {

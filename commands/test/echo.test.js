@@ -3,14 +3,17 @@
 require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
-const message = require('$structures/FakeMessage')
+const Message = require('$structures/FakeMessage')
 const echo = require('../echo').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('echo', function () {
-  let spy
-  beforeEach(function () { spy = sinon.spy(message.channel, 'send') })
+  let spy, message
+  beforeEach(function () {
+    message = new Message()
+    spy = sinon.spy(message.channel, 'send')
+  })
   afterEach(function () { spy.restore() })
 
   it('echoes blank line given no args', function () {

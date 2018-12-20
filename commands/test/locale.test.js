@@ -4,15 +4,17 @@ require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
-const message = require('$structures/FakeMessage')
+const Message = require('$structures/FakeMessage')
 const locale = require('../locale').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('locale', function () {
-  let spy
-  before(function () { message.member.permissions.set('MANAGE_GUILD') })
-  beforeEach(function () { spy = sinon.spy(i18n, 'translate') })
+  let spy, message
+  beforeEach(function () {
+    message = new Message()
+    spy = sinon.spy(i18n, 'translate')
+  })
   afterEach(function () { spy.restore() })
 
   it('requires a subcommand specified', function () {

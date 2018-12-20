@@ -4,19 +4,19 @@ require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
-const message = require('$structures/FakeMessage')
+const Message = require('$structures/FakeMessage')
 const User = require('$structures/FakeUser')
 const avatar = require('../avatar').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('avatar', function () {
-  let spy
-  beforeEach(function () { spy = sinon.spy(message.channel, 'send') })
-  afterEach(function () {
-    spy.restore()
-    message.mentions.users = new Map()
+  let spy, message
+  beforeEach(function () {
+    message = new Message()
+    spy = sinon.spy(message.channel, 'send')
   })
+  afterEach(function () { spy.restore() })
 
   it('prints the author\'s avatar given no arguments', function () {
     avatar(message, [])
@@ -32,7 +32,7 @@ describe('avatar', function () {
   it('prints multiple mentioned users\' avatars', function () {
     message.mentions.users.set('0001', new User('0001'))
     message.mentions.users.set('0002', new User('0002'))
-    avatar(message, ['@test001', 'dummy-argument', '@test0002'])
+    avatar(message, ['@test0001', 'dummy-argument', '@test0002'])
     expect(spy.returnValues[0]).to
       .include('avatarURL:0001')
       .and.to.include('avatarURL:0002')

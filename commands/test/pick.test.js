@@ -4,14 +4,15 @@ require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
-const message = require('$structures/FakeMessage')
+const Message = require('$structures/FakeMessage')
 const pick = require('../pick').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('pick', function () {
-  let translate, substitute
+  let translate, substitute, message
   beforeEach(function () {
+    message = new Message()
     translate = sinon.spy(i18n, 'translate')
     substitute = sinon.spy(i18n, 'substitute')
   })
