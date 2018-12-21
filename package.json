@@ -18,11 +18,13 @@
     "libsodium-wrappers": "^0.7.3",
     "module-alias": "^2.1.0",
     "node-opus": "^0.2.7",
-    "uws": "^9.148.0"
+    "uws": "^9.148.0",
+    "ytdl-core": "^0.28.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
+    "dirty-chai": "^2.0.1",
     "mocha": "^5.1.1",
     "mock-fs": "^4.6.0",
     "sinon": "^4.5.0",
@@ -30,8 +32,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-all": "mocha $(find . -path ./node_modules -prune -o -name \"*.test.js\")",
-    "test-coverage": "find . -path ./node_modules -prune -o -name \"*.test.js\" | xargs nyc --reporter=html --reporter=text mocha"
+    "test-all": "./test.sh",
+    "test-coverage": "nyc --reporter=text --reporter=html ./test.sh"
   },
   "repository": {
     "type": "git",
