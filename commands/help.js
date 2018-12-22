@@ -32,7 +32,7 @@ module.exports = {
     if (args.length === 0) {
       embed
         .setAuthor(__('help.title'))
-        .setDescription(__('help.getDetailedInformation') + registry.keyArray().join('\n'))
+        .setDescription(__('help.getDetailedInformation') + registry.commands.keyArray().join('\n'))
     } else {
       const command = registry.fetch(args[0])
       if (!command) { message.channel.send(__('main.commandNotFound')); return }
