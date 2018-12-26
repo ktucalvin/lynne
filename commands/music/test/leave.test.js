@@ -5,6 +5,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const Message = require('$structures/FakeMessage')
 const VoiceChannel = require('$structures/FakeVoiceChannel')
+const manager = require('../QueueManager')
 const leave = require('../leave').execute
 const expect = chai.expect
 chai.use(require('dirty-chai'))
@@ -35,5 +36,13 @@ describe('leave', function () {
     message.member.voiceChannel = new VoiceChannel()
     leave(message, [])
     expect(spy).to.not.be.called()
+  })
+
+  it('empties the queue', function () {
+    manager.add('a', message.guild.id)
+    manager.add('b', message.guild.id)
+    manager.add('c', message.guild.id)
+    leave(message, [])
+    expect(manager.get(message.guild.id)).to.equal(undefined)
   })
 })

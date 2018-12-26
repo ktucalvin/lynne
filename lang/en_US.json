@@ -71,11 +71,10 @@
     },
     "get": "Current locale set to %s"
   },
-<<<<<<< HEAD
   "devreload": {
     "description": "Reloads the command registry. Does not update changes to library or lang files.",
     "done": "Finished reloading the registry"
-=======
+  },
   "join": {
     "description": "Mystia will join your voice channel",
     "success": "Successfully joined `%(channel)`",
@@ -83,13 +82,16 @@
   },
   "add": {
     "description": "Add a song to the music queue and begin playing it if the queue is empty",
+    "insufficientArgs": "Please give me the YouTube link to a song to play!",
     "invalidURL": "Please check the URL you gave me is a valid one, thanks~",
-    "alreadyPlaying": "I'm already playing a song! Please wait your turn.",
-    "success": "Okay, now playing your song",
+    "success": "Successfully added your song",
     "complete": "Finished playing your song!"
   },
   "leave": {
-    "description": "Mystia will leave her voice channel, if she is in one"
->>>>>>> Add functionality to play a single song at a time (join, leave, add)
+    "description": "Mystia will leave her voice channel, if she is in one. This will also erase the music queue."
+  },
+  "queue": {
+    "description": "Prints the current music queue",
+    "notPlaying": "Nothing is playing right now"
   }
 }
