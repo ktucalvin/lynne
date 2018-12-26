@@ -5,11 +5,12 @@ const manager = require('./QueueManager')
 const join = require('./join').execute
 let playing
 
-function play (message) {
+function play (message, added) {
   if (!message.guild.me.voiceChannel) {
-    join(message).then(connection => { if (connection) play(message) }).catch(err => console.log(err))
+    join(message).then(connection => { if (connection) play(message, added) }).catch(err => console.log(err))
     return
   }
+  if (added) { message.channel.send(i18n.translate('add.success', message.guild.id)) }
   const Q = manager.get(message.guild.id)
   if (!Q || !Q.length || playing) { return }
   playing = true
@@ -41,6 +42,6 @@ module.exports = {
     if (message.member.voiceChannel) {
       manager.add(url, message.guild.id)
     }
-    play(message)
+    play(message, true)
   }
 }
