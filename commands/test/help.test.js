@@ -41,4 +41,9 @@ describe('help', function () {
     help(message, ['nonexistantcommand'])
     expect(spy).to.have.been.calledWith('main.commandNotFound')
   })
+
+  it('prints a command\'s alias if it has one', function () {
+    help(message, ['devreload'])
+    expect(spy).to.have.been.calledWith('help.property.aliases')
+  })
 })

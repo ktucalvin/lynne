@@ -30,9 +30,14 @@ module.exports = {
       .setURL('https://bitbucket.org/ktucalvin/mystia/wiki/Home')
 
     if (args.length === 0) {
+      const commands = registry.commands.keyArray()
+      let padding = 0
+      for (const cmd of commands) {
+        if (cmd.length > padding) padding = cmd.length
+      }
       embed
         .setAuthor(__('help.title'))
-        .setDescription(__('help.getDetailedInformation') + registry.commands.keyArray().join('\n'))
+        .setDescription(__('help.getDetailedInformation') + '```' + commands.map(e => e.padEnd(padding + 2, ' ')).join('') + '```')
     } else {
       const command = registry.fetch(args[0])
       if (!command) { message.channel.send(__('main.commandNotFound')); return }
@@ -42,7 +47,7 @@ module.exports = {
         .addField(__('help.property.description'), __(`${command.name}.description`) + (getOptDescription(command, __) || ''))
         .addField(__('help.property.usage'), command.usage.map(e => '`' + e + '`').join('\n'))
       if (command.aliases) { embed.addField(__('help.property.aliases'), command.aliases) }
-      if (command.cooldown) { embed.addField(__('help.property.cooldown'), command.cooldown) }
+      // if (command.cooldown) { embed.addField(__('help.property.cooldown'), command.cooldown) }
       if (command.permission) { embed.addField(__('help.property.permissions'), __(`permission.${command.permission}`)) }
     }
 
