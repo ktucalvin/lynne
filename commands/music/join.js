@@ -1,5 +1,6 @@
 'use strict'
 const i18n = require('$lib/i18n')
+const OperationalError = require('$structures/OperationalError')
 
 module.exports = {
   name: 'join',
@@ -15,7 +16,7 @@ module.exports = {
         })
     } else {
       message.channel.send(__('join.noVoiceChannel'))
-      return Promise.resolve(null)
+      return Promise.reject(new OperationalError())
     }
   }
 }

@@ -3,12 +3,14 @@
 require('module-alias/register')
 const chai = require('chai')
 const sinon = require('sinon')
+const OperationalError = require('$structures/OperationalError')
 const Message = require('$structures/FakeMessage')
 const VoiceChannel = require('$structures/FakeVoiceChannel')
 const join = require('../join').execute
 const expect = chai.expect
 chai.use(require('chai-as-promised'))
 chai.use(require('sinon-chai'))
+chai.use(require('dirty-chai'))
 
 describe('join', function () {
   let spy, message
@@ -21,10 +23,10 @@ describe('join', function () {
 
   it('notifies user if they\'re not in a voice channel', function () {
     message.member.voiceChannel = null
-    return expect(join(message, [])).to.eventually.equal(null)
+    return expect(join(message, [])).to.eventually.be.rejectedWith(OperationalError)
   })
 
   it('joins a user\'s voice channel', function () {
-    return expect(join(message, [])).to.eventually.not.equal(null)
+    return expect(join(message, [])).to.eventually.have.property('playStream')
   })
 })

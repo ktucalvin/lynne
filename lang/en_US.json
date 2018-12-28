@@ -84,8 +84,8 @@
     "description": "Add a song to the music queue and begin playing it if the queue is empty",
     "insufficientArgs": "Please give me the YouTube link to a song to play!",
     "invalidURL": "Please check the URL you gave me is a valid one, thanks~",
-    "success": "Successfully added your song",
-    "complete": "Finished playing your song!"
+    "success": "Added `%s` to the music queue",
+    "complete": "Finished playing all songs!"
   },
   "leave": {
     "description": "Mystia will leave her voice channel, if she is in one. This will also erase the music queue."

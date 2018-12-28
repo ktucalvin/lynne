@@ -5,11 +5,17 @@ const chai = require('chai')
 const sinon = require('sinon')
 const Message = require('$structures/FakeMessage')
 const VoiceChannel = require('$structures/FakeVoiceChannel')
-const manager = require('../QueueManager')
-const leave = require('../leave').execute
 const expect = chai.expect
 chai.use(require('dirty-chai'))
 chai.use(require('sinon-chai'))
+
+const mockery = require('mockery')
+mockery.enable()
+mockery.warnOnUnregistered(false)
+mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [{ tags: ['nextcommitwillfixcoverageforQmanager'] }] }) })
+
+const manager = require('../QueueManager')
+const leave = require('../leave').execute
 
 describe('leave', function () {
   let spy, message
@@ -19,6 +25,7 @@ describe('leave', function () {
     spy = sinon.spy(message.guild.me.voiceChannel, 'leave')
   })
   afterEach(function () { spy.restore() })
+  after(function () { mockery.disable() })
 
   it('does nothing if not in a voice channel', function () {
     message.guild.me.voiceChannel = null
