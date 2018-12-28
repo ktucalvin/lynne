@@ -21,10 +21,10 @@ describe('join', function () {
 
   it('notifies user if they\'re not in a voice channel', function () {
     message.member.voiceChannel = null
-    expect(join(message, [])).to.eventually.equal(null)
+    return expect(join(message, [])).to.eventually.equal(null)
   })
 
   it('joins a user\'s voice channel', function () {
-    expect(join(message, [])).to.eventually.not.equal(null)
+    return expect(join(message, [])).to.eventually.not.equal(null)
   })
 })
