@@ -14,10 +14,17 @@ chai.use(require('sinon-chai'))
 const mockery = require('mockery')
 const mock = () => {}
 mock.validateURL = require('ytdl-core').validateURL
+
+const fakeMetadata = {
+  view_count: 0,
+  description: 'description',
+  upload_date: '20181228'
+}
+
 mockery.enable()
 mockery.warnOnUnregistered(false)
 mockery.registerMock('ytdl-core', mock)
-mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [{}] }) })
+mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [fakeMetadata] }) })
 
 const manager = require('../QueueManager')
 const add = require('../add').execute

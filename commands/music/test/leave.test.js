@@ -10,9 +10,15 @@ chai.use(require('dirty-chai'))
 chai.use(require('sinon-chai'))
 
 const mockery = require('mockery')
+const fakeMetadata = {
+  view_count: 0,
+  description: 'description',
+  upload_date: '20181228'
+}
+
 mockery.enable()
 mockery.warnOnUnregistered(false)
-mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [{ tags: ['nextcommitwillfixcoverageforQmanager'] }] }) })
+mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [fakeMetadata] }) })
 
 const manager = require('../QueueManager')
 const leave = require('../leave').execute
@@ -46,10 +52,12 @@ describe('leave', function () {
   })
 
   it('empties the queue', function () {
-    manager.add('a', message.guild.id)
-    manager.add('b', message.guild.id)
-    manager.add('c', message.guild.id)
-    leave(message, [])
-    expect(manager.get(message.guild.id)).to.equal(undefined)
+    return manager.add('a', message.guild.id)
+      .then(() => manager.add('b', message.guild.id))
+      .then(() => manager.add('c', message.guild.id))
+      .then(() => {
+        leave(message, [])
+        expect(manager.get(message.guild.id)).to.equal(undefined)
+      })
   })
 })

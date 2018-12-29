@@ -5,16 +5,18 @@ const servers = new Map()
 
 function extractMetadata (info) {
   info = info.items[0]
+  const date = info.upload_date
   return {
     title: info.fulltitle,
     duration: secondsToTimeString(info.duration),
     likes: info.like_count,
     dislikes: info.dislike_count,
-    tags: (info.tags && info.tags.length) ? info.tags : 'No tags',
-    views: info.view_count,
-    description: info.description,
+    ratio: info.dislike_count ? ((info.like_count / (info.like_count + info.dislike_count)) * 100).toFixed(2) : 100,
+    tags: info.tags ? info.tags.join() : 'No tags',
+    views: info.view_count.toLocaleString(),
+    description: info.description.length >= 2048 ? info.description.substr(0, 2045) + '...' : info.description,
     uploader: info.uploader,
-    uploadDate: info.upload_date,
+    uploadDate: new Date(date.substring(0, 4), +date.substring(4, 6) - 1, date.substring(6, 8)).toDateString(),
     uploaderUrl: info.uploader_url,
     thumbnail: info.thumbnail
   }

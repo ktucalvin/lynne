@@ -92,6 +92,26 @@
   },
   "queue": {
     "description": "Prints the current music queue",
+    "title": "Music Queue",
     "notPlaying": "Nothing is playing right now"
+  },
+  "playing": {
+    "description": "Prints the currently playing song, if there is one",
+    "nowPlaying": "Now Playing",
+    "detailed": {
+      "description": "Print extra metadata. Same as calling \"songinfo 1\""
+    }
+  },
+  "songinfo": {
+    "description": "Print extra metadata about the song at `index` in the music queue",
+    "insufficientArgs": "Please provide the index of the song you want information about",
+    "invalidIndex": "The index you gave me isn't in the queue",
+    "field": {
+      "tags": "Tags",
+      "views": "Views",
+      "duration": "Duration",
+      "uploadDate": "Upload Date",
+      "likeInfo": "Likes-Dislikes"
+    }
   }
 }
