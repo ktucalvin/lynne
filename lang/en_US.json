@@ -39,7 +39,20 @@
     "noMentionedUsers": "Of whom did you want me to find the avatar of? Please @mention them!"
   },
   "echo": {
-    "description": "Mystia echoes what you say!"
+    "description": "Mystia echoes what you say!",
+    "clearRef": "Successfully cleared reference channel",
+    "getref": {
+      "description": "Gets the current reference channel",
+      "notice": "Current reference is set to %s",
+      "noReference": "No reference is currently set"
+    },
+    "setref": {
+      "description": "Sets a reference channel to print all following calls to this command to. Passing \"none\" will remove the current reference channel",
+      "notice": "Set reference channel to %s"
+    },
+    "to": {
+      "description": "Print to the specified channel, ignoring the set reference channel"
+    }
   },
   "pick": {
     "description": "Mystia will help you pick something!",
