@@ -18,7 +18,8 @@
   "parser": {
     "missingQuote": "You're missing a quotation mark so I can't understand what you mean!",
     "unknownOption": "Unrecognized option: `%(option)`",
-    "parameterizedBeforeStandalone": "Option `%(option)` requires parameter and cannot be before `%(flag)`"
+    "parameterizedBeforeStandalone": "Option `%(option)` requires parameter and cannot be before `%(flag)`",
+    "needsArgument": "Option `%(option)` requires an argument"
   },
   "help": {
     "description": "Mystia helps you with a command or lists all of them!",
