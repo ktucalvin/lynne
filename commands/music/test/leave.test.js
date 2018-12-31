@@ -5,23 +5,11 @@ const chai = require('chai')
 const sinon = require('sinon')
 const Message = require('$structures/FakeMessage')
 const VoiceChannel = require('$structures/FakeVoiceChannel')
+const manager = require('../QueueManager')
+const leave = require('../leave').execute
 const expect = chai.expect
 chai.use(require('dirty-chai'))
 chai.use(require('sinon-chai'))
-
-const mockery = require('mockery')
-const fakeMetadata = {
-  view_count: 0,
-  description: 'description',
-  upload_date: '20181228'
-}
-
-mockery.enable()
-mockery.warnOnUnregistered(false)
-mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [fakeMetadata] }) })
-
-const manager = require('../QueueManager')
-const leave = require('../leave').execute
 
 describe('leave', function () {
   let spy, message
@@ -31,7 +19,6 @@ describe('leave', function () {
     spy = sinon.spy(message.guild.me.voiceChannel, 'leave')
   })
   afterEach(function () { spy.restore() })
-  after(function () { mockery.disable() })
 
   it('does nothing if not in a voice channel', function () {
     message.guild.me.voiceChannel = null
@@ -52,12 +39,8 @@ describe('leave', function () {
   })
 
   it('empties the queue', function () {
-    return manager.add('a', message.guild.id)
-      .then(() => manager.add('b', message.guild.id))
-      .then(() => manager.add('c', message.guild.id))
-      .then(() => {
-        leave(message, [])
-        expect(manager.getQueue(message.guild.id)).to.equal(undefined)
-      })
+    manager._inject('abcdefg'.split(''), message.guild.id)
+    leave(message, [])
+    expect(manager.getQueue(message.guild.id)).to.equal(undefined)
   })
 })
