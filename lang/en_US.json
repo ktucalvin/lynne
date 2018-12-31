@@ -84,6 +84,7 @@
     "description": "Add a song to the music queue and begin playing it if the queue is empty",
     "insufficientArgs": "Please give me the YouTube link to a song to play!",
     "invalidURL": "Please check the URL you gave me is a valid one, thanks~",
+    "lostConnection": "I lost connection and could not recover, so the music queue was cleared",
     "success": "Added `%s` to the music queue",
     "complete": "Finished playing all songs!"
   },
@@ -113,5 +114,8 @@
       "uploadDate": "Upload Date",
       "likeInfo": "Likes-Dislikes"
     }
+  },
+  "skip": {
+    "description": "Skips the current song in the queue, if something is playing"
   }
 }

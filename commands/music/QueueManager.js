@@ -27,15 +27,18 @@ module.exports = {
     return getInfo(url).then(info => {
       const song = extractMetadata(info)
       song.url = url
-      const Q = servers.get(guildId)
-      if (!Q) {
-        servers.set(guildId, [song])
+      const server = servers.get(guildId)
+      if (!server) {
+        servers.set(guildId, { queue: [song] })
       } else {
-        Q.push(song)
+        server.queue.push(song)
       }
       return song
     })
   },
-  get: guildId => servers.get(guildId),
-  flush: guildId => servers.delete(guildId)
+  getQueue: guildId => servers.get(guildId) ? servers.get(guildId).queue : undefined,
+  getDispatcher: guildId => servers.get(guildId) ? servers.get(guildId).dispatcher : undefined,
+  attachDispatcher: (dispatcher, guildId) => { servers.get(guildId).dispatcher = dispatcher },
+  flush: guildId => servers.delete(guildId),
+  _inject: (object, guildId) => servers.set(guildId, object)
 }

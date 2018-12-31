@@ -57,7 +57,7 @@ describe('leave', function () {
       .then(() => manager.add('c', message.guild.id))
       .then(() => {
         leave(message, [])
-        expect(manager.get(message.guild.id)).to.equal(undefined)
+        expect(manager.getQueue(message.guild.id)).to.equal(undefined)
       })
   })
 })

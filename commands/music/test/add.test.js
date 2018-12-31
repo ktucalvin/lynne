@@ -5,9 +5,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
 const Message = require('$structures/FakeMessage')
-
 const expect = chai.expect
-chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 chai.use(require('sinon-chai'))
 
@@ -21,10 +19,15 @@ const fakeMetadata = {
   upload_date: '20181228'
 }
 
+const originalJoin = require('../join').execute
+const joinMock = { execute: message => message.doNotConnect ? Promise.resolve(null) : originalJoin(message, []) }
+delete require.cache[require.resolve('../join')]
+
 mockery.enable()
 mockery.warnOnUnregistered(false)
 mockery.registerMock('ytdl-core', mock)
 mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [fakeMetadata] }) })
+mockery.registerMock('./join', joinMock)
 
 const manager = require('../QueueManager')
 const add = require('../add').execute
@@ -61,7 +64,7 @@ describe('add', function () {
     return add(message, ['https://www.youtube.com/watch?v=00000000000'])
       .then(() => {
         message.member.voiceChannel = copy
-        const Q = manager.get(message.guild.id)
+        const Q = manager.getQueue(message.guild.id)
         expect(Q).to.equal(undefined)
         expect(translate).to.be.calledWith('join.noVoiceChannel')
         expect(message.guild.me.voiceChannel).to.equal(undefined)
@@ -87,7 +90,7 @@ describe('add', function () {
       .then(() => add(message, ['https://www.youtube.com/watch?v=00000000000']))
       .then(() => add(message, ['https://www.youtube.com/watch?v=00000000000']))
       .then(() => {
-        const Q = manager.get(message.guild.id)
+        const Q = manager.getQueue(message.guild.id)
         expect(Q.length).to.equal(3)
         manager.flush(message.guild.id)
       })
@@ -115,6 +118,15 @@ describe('add', function () {
     return add(message, ['https://www.youtube.com/watch?v=00000000000'])
       .then(() => {
         expect(translate).to.be.calledWith('main.unknownError')
+      })
+  })
+
+  it('cleans up if connection is lost before playing a song', function () {
+    // fake a lost connection by never setting the voice channel
+    message.doNotConnect = true
+    return add(message, ['https://www.youtube.com/watch?v=00000000000'])
+      .then(() => {
+        expect(translate).to.be.calledWith('add.lostConnection')
       })
   })
 })
