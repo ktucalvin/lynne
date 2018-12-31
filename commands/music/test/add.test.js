@@ -12,6 +12,7 @@ chai.use(require('sinon-chai'))
 const mockery = require('mockery')
 const mock = () => {}
 mock.validateURL = require('ytdl-core').validateURL
+mock.getURLVideoID = () => {}
 
 const fakeMetadata = {
   view_count: 0,

@@ -10,7 +10,6 @@ const join = require('../join').execute
 const expect = chai.expect
 chai.use(require('chai-as-promised'))
 chai.use(require('sinon-chai'))
-chai.use(require('dirty-chai'))
 
 describe('join', function () {
   let spy, message
