@@ -117,5 +117,9 @@
   },
   "skip": {
     "description": "Skips the current song in the queue, if something is playing"
+  },
+  "shuffle": {
+    "description": "Shuffles the music queue. Note that index 1 cannot be shuffled because it is the currently playing song",
+    "success": "Successfully shuffled the queue"
   }
 }
