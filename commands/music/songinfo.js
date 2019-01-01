@@ -32,14 +32,14 @@ module.exports = {
       .setColor('#FD79A8')
       .setTitle(metadata.title)
       .setURL(metadata.url)
-      .setDescription(metadata.description)
+      .setDescription(metadata.description.substr(0, 2048))
       .setAuthor(metadata.uploader, null, metadata.uploaderUrl)
       .setThumbnail(metadata.thumbnail)
-      .addField(__('songinfo.field.tags'), metadata.tags) // TODO localize
+      .addField(__('songinfo.field.tags'), metadata.tags || __('songinfo.noTags'))
       .addField(__('songinfo.field.views'), metadata.views, true)
       .addField(__('songinfo.field.duration'), metadata.duration, true)
       .addField(__('songinfo.field.uploadDate'), metadata.uploadDate, true)
-      .addField(__('songinfo.field.likeInfo'), `${metadata.likes} : ${metadata.dislikes} (${metadata.ratio}%)`, true)
+      .addField(__('songinfo.field.likeInfo'), `${metadata.likes} : ${metadata.dislikes} (${metadata.ratio || 100}%)`, true)
       .setTimestamp()
     message.channel.send(embed)
   }

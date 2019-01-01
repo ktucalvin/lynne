@@ -107,6 +107,7 @@
     "description": "Print extra metadata about the song at `index` in the music queue",
     "invalidIndex": "Please provide the index of the song you want information about",
     "indexOutOfBounds": "The index you gave me isn't in the queue",
+    "noTags": "No tags",
     "field": {
       "tags": "Tags",
       "views": "Views",

@@ -17,7 +17,8 @@ mock.getURLVideoID = () => {}
 const fakeMetadata = {
   view_count: 0,
   description: 'description',
-  upload_date: '20181228'
+  upload_date: '20181228',
+  tags: []
 }
 
 const originalJoin = require('../join').execute
