@@ -121,5 +121,11 @@
   "shuffle": {
     "description": "Shuffles the music queue. Note that index 1 cannot be shuffled because it is the currently playing song",
     "success": "Successfully shuffled the queue"
+  },
+  "skipto": {
+    "description": "Skip the queue to the specified index. Note that you cannot skip to the current song since it is already playing",
+    "invalidIndex": "Please provide the index of the song you want information about",
+    "indexOutOfBounds": "The index you gave me isn't in the queue",
+    "cannotSkipCurrentSong": "I can't skip to the currently playing song because it's already playing! If you want to skip it entirely run ~skip"
   }
 }
