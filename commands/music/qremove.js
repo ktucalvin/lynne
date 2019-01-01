@@ -16,11 +16,11 @@ module.exports = {
       return
     }
     if (!args.length || !(typeof index === 'number' && index % 1 === 0)) {
-      message.channel.send(__('skipto.invalidIndex'))
+      message.channel.send(__('qremove.invalidIndex'))
       return
     }
     if (index > Q.length || index < 1) {
-      message.channel.send(__('skipto.indexOutOfBounds'))
+      message.channel.send(__('qremove.indexOutOfBounds'))
       return
     }
     if (index === 1) {

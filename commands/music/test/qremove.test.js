@@ -31,14 +31,14 @@ describe('qremove', function () {
     manager._inject({ queue: [{}] }, message.guild.id)
     qremove(message, [])
     qremove(message, ['strings are not indices'])
-    expect(spy).to.always.be.calledWith('skipto.invalidIndex')
+    expect(spy).to.always.be.calledWith('qremove.invalidIndex')
   })
 
   it('notifies user if index is not in queue', function () {
     manager._inject({ queue: [{}] }, message.guild.id)
     qremove(message, ['9999'])
     qremove(message, ['-5'])
-    expect(spy).to.always.be.calledWith('skipto.indexOutOfBounds')
+    expect(spy).to.always.be.calledWith('qremove.indexOutOfBounds')
   })
 
   it('skips the current song if index is 1', function () {

@@ -105,8 +105,8 @@
   },
   "songinfo": {
     "description": "Print extra metadata about the song at `index` in the music queue",
-    "insufficientArgs": "Please provide the index of the song you want information about",
-    "invalidIndex": "The index you gave me isn't in the queue",
+    "invalidIndex": "Please provide the index of the song you want information about",
+    "indexOutOfBounds": "The index you gave me isn't in the queue",
     "field": {
       "tags": "Tags",
       "views": "Views",
@@ -130,6 +130,8 @@
   },
   "qremove": {
     "description": "Remove the song at the specified index from the queue. `~qremove 1` has the same effect as `~skip`",
-    "success": "Successfully removed %s from the queue"
+    "success": "Successfully removed %s from the queue",
+    "invalidIndex": "Please provide the index of the song to remove",
+    "indexOutOfBounds": "The index you gave me isn't in the queue"
   }
 }

@@ -35,13 +35,13 @@ describe('songinfo', function () {
     manager._inject({ queue: [fakeMetadata] }, message.guild.id)
     songinfo(message, [])
     songinfo(message, ['a string'])
-    expect(spy).to.always.be.calledWith('songinfo.insufficientArgs')
+    expect(spy).to.always.be.calledWith('songinfo.invalidIndex')
   })
 
   it('notifies user if index is not in queue', function () {
     manager._inject({ queue: [fakeMetadata] }, message.guild.id)
     songinfo(message, ['99999'])
-    expect(spy).to.always.be.calledWith('songinfo.invalidIndex')
+    expect(spy).to.always.be.calledWith('songinfo.indexOutOfBounds')
   })
 
   it('prints a song\'s metadata', function () {

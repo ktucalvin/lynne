@@ -18,12 +18,12 @@ module.exports = {
     const index = parseInt(args[0])
 
     if (!args.length || !(typeof index === 'number' && index % 1 === 0)) {
-      message.channel.send(__('songinfo.insufficientArgs'))
+      message.channel.send(__('songinfo.invalidIndex'))
       return
     }
 
     if (!Q[index - 1]) {
-      message.channel.send(__('songinfo.invalidIndex'))
+      message.channel.send(__('songinfo.indexOutOfBounds'))
       return
     }
 
