@@ -12,7 +12,7 @@ const expect = chai.expect
 chai.use(require('sinon-chai'))
 chai.use(require('dirty-chai'))
 
-describe('skip', function () {
+describe('qremove', function () {
   let spy, message
   beforeEach(function () {
     message = new Message()
