@@ -127,5 +127,9 @@
     "invalidIndex": "Please provide the index of the song you want information about",
     "indexOutOfBounds": "The index you gave me isn't in the queue",
     "cannotSkipCurrentSong": "I can't skip to the currently playing song because it's already playing! If you want to skip it entirely run ~skip"
+  },
+  "qremove": {
+    "description": "Remove the song at the specified index from the queue. `~qremove 1` has the same effect as `~skip`",
+    "success": "Successfully removed %s from the queue"
   }
 }
