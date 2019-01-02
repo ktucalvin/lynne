@@ -14,7 +14,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.author.bot) { return }
-  const { __, _s } = i18n.useGuild(message.guild.id)
+  const { __ } = i18n.useGuild(message.guild.id)
   try {
     const { name, args } = parse(message.content)
     if (!name) { return }
@@ -27,16 +27,23 @@ client.on('message', message => {
       return
     }
 
-    command.execute(message, args)
+    Promise.resolve()
+      .then(() => command.execute(message, args))
+      .catch(err => handleError(message, err))
   } catch (err) {
-    if (err instanceof OperationalError) {
-      message.channel.send(_s(err.key, err.data))
-    } else {
-      console.error(`Terminating process due to non-user error while processing command:\n${err}`)
-      close(1)
-    }
+    handleError(err)
   }
 })
+
+function handleError (message, err) {
+  if (err instanceof OperationalError) {
+    if (err.key) message.channel.send(i18n.substitute(err.key, err.data, message.guild.id))
+  } else {
+    console.error(`Terminating process due to non-user error while processing command`)
+    console.error(err)
+    close(1)
+  }
+}
 
 function close (status) {
   console.log('\nMystia is going to sleep!')
