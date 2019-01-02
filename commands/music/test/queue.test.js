@@ -43,4 +43,10 @@ describe('queue', function () {
     queue(message, [])
     expect(spy).to.be.calledWith('queue.paused')
   })
+
+  it('hides songs added secretly', function () {
+    manager._inject({ dispatcher, queue: [{ title: 'title', url: 'url', secret: true }] }, message.guild.id)
+    queue(message, [])
+    expect(spy).to.be.calledWith('queue.secret')
+  })
 })

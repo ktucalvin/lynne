@@ -44,7 +44,6 @@ describe('add', function () {
   })
   afterEach(function () {
     translate.restore()
-    play.restore()
     message.member.voiceChannel.connection.dispatcher.emit('end')
     manager.flush(message.guild.id)
   })
@@ -84,6 +83,14 @@ describe('add', function () {
     return add(message, ['https://www.youtube.com/watch?v=00000000000'])
       .then(() => {
         expect(play).to.be.called()
+      })
+  })
+
+  it('hides a song\'s name if added with the secret option', function () {
+    return add(message, ['https://www.youtube.com/watch?v=00000000000', '-s'])
+      .then(() => {
+        expect(play).to.be.called()
+        expect(translate).to.not.be.calledWith('add.success')
       })
   })
 

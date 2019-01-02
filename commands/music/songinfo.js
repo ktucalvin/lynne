@@ -28,6 +28,10 @@ module.exports = {
     }
 
     const metadata = Q[index - 1]
+    if (metadata.secret) {
+      message.channel.send(__('songinfo.secret'))
+      return
+    }
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setTitle(metadata.title)

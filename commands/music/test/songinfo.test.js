@@ -50,4 +50,11 @@ describe('songinfo', function () {
     expect(spy).to.be.calledWith('songinfo.field.tags')
     expect(spy).to.be.calledWith('songinfo.field.likeInfo')
   })
+
+  it('hides songs added secretly', function () {
+    fakeMetadata.secret = true
+    manager._inject({ queue: [fakeMetadata] }, message.guild.id)
+    songinfo(message, ['1'])
+    expect(spy).to.be.calledWith('songinfo.secret')
+  })
 })

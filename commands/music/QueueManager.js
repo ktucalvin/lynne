@@ -3,7 +3,7 @@ const { getInfo } = require('ytdl-getinfo')
 const { secondsToTimeString } = require('$lib/utils')
 const servers = new Map()
 
-function extractMetadata (info) {
+function extractMetadata (info, secret) {
   info = info.items[0]
   const date = info.upload_date
   return {
@@ -18,14 +18,15 @@ function extractMetadata (info) {
     uploader: info.uploader,
     uploadDate: new Date(date.substring(0, 4), +date.substring(4, 6) - 1, date.substring(6, 8)).toDateString(),
     uploaderUrl: info.uploader_url,
-    thumbnail: info.thumbnail
+    thumbnail: info.thumbnail,
+    secret
   }
 }
 
 module.exports = {
-  add: (url, guildId) => {
+  add: (url, guildId, secret) => {
     return getInfo(url).then(info => {
-      const song = extractMetadata(info)
+      const song = extractMetadata(info, secret)
       song.url = url
       const server = servers.get(guildId)
       if (!server) {

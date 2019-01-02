@@ -16,7 +16,9 @@ module.exports = {
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setAuthor(__('queue.title') + state)
-      .setDescription(Q.map((song, index) => `**${index + 1}.** ${song.title} (<${song.url}>)`).join('\n'))
+      .setDescription(Q.map((song, index) =>
+        song.secret ? `**${index + 1}.** ${__('queue.secret')}` : `**${index + 1}.** ${song.title} (<${song.url}>)`
+      ).join('\n'))
       .setTimestamp()
     message.channel.send(embed)
   }

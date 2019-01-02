@@ -42,4 +42,11 @@ describe('playing', function () {
     playing(message, ['-d'])
     expect(spy).to.be.calledWith('songinfo.field.tags')
   })
+
+  it('hides the current song if it was added secretly', function () {
+    fakeMetadata.secret = true
+    manager._inject({ queue: [fakeMetadata] }, message.guild.id)
+    playing(message, [])
+    expect(spy).to.be.calledWith('playing.secret')
+  })
 })

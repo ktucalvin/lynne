@@ -100,7 +100,10 @@
     "invalidURL": "Please check the URL you gave me is a valid one, thanks~",
     "lostConnection": "I lost connection and could not recover, so the music queue was cleared",
     "success": "Added `%s` to the music queue",
-    "complete": "Finished playing all songs!"
+    "complete": "Finished playing all songs!",
+    "secret": {
+      "description": "Adds a song secretly to the queue"
+    }
   },
   "leave": {
     "description": "Mystia will leave her voice channel, if she is in one. This will also erase the music queue."
@@ -109,11 +112,13 @@
     "description": "Prints the current music queue",
     "title": "Music Queue",
     "notPlaying": "Nothing is playing right now",
-    "paused": "(paused)"
+    "paused": "(paused)",
+    "secret": "(secret)"
   },
   "playing": {
     "description": "Prints the currently playing song, if there is one",
     "nowPlaying": "Now Playing",
+    "secret": "The currently playing song was added secretly~",
     "detailed": {
       "description": "Print extra metadata. Same as calling \"songinfo 1\""
     }
@@ -123,6 +128,7 @@
     "invalidIndex": "Please provide the index of the song you want information about",
     "indexOutOfBounds": "The index you gave me isn't in the queue",
     "noTags": "No tags",
+    "secret": "That song was added secretly~",
     "field": {
       "tags": "Tags",
       "views": "Views",
