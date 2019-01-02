@@ -94,7 +94,8 @@
   "queue": {
     "description": "Prints the current music queue",
     "title": "Music Queue",
-    "notPlaying": "Nothing is playing right now"
+    "notPlaying": "Nothing is playing right now",
+    "paused": "(paused)"
   },
   "playing": {
     "description": "Prints the currently playing song, if there is one",
@@ -134,5 +135,11 @@
     "success": "Successfully removed %s from the queue",
     "invalidIndex": "Please provide the index of the song to remove",
     "indexOutOfBounds": "The index you gave me isn't in the queue"
+  },
+  "pause": {
+    "description": "Pauses music playback while keeping all songs in the queue"
+  },
+  "play": {
+    "description": "Resumes music playback if the queue was paused. To add a song for playback use `~add`"
   }
 }
