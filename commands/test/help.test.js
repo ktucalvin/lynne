@@ -8,6 +8,7 @@ const Message = require('$structures/FakeMessage')
 let help = require('../help').execute
 const expect = chai.expect
 chai.use(require('sinon-chai'))
+require('$lib/registry')
 
 describe('help', function () {
   let spy, message
