@@ -88,5 +88,72 @@
   "devreload": {
     "description": "Reloads the command registry. Does not update changes to library or lang files.",
     "done": "Finished reloading the registry"
+  },
+  "join": {
+    "description": "Mystia will join your voice channel",
+    "success": "Successfully joined `%(channel)`",
+    "noVoiceChannel": "You're not in a voice channel right now!"
+  },
+  "add": {
+    "description": "Add a song to the music queue and begin playing it if the queue is empty",
+    "insufficientArgs": "Please give me the YouTube link to a song to play!",
+    "invalidURL": "Please check the URL you gave me is a valid one, thanks~",
+    "lostConnection": "I lost connection and could not recover, so the music queue was cleared",
+    "success": "Added `%s` to the music queue",
+    "complete": "Finished playing all songs!"
+  },
+  "leave": {
+    "description": "Mystia will leave her voice channel, if she is in one. This will also erase the music queue."
+  },
+  "queue": {
+    "description": "Prints the current music queue",
+    "title": "Music Queue",
+    "notPlaying": "Nothing is playing right now",
+    "paused": "(paused)"
+  },
+  "playing": {
+    "description": "Prints the currently playing song, if there is one",
+    "nowPlaying": "Now Playing",
+    "detailed": {
+      "description": "Print extra metadata. Same as calling \"songinfo 1\""
+    }
+  },
+  "songinfo": {
+    "description": "Print extra metadata about the song at `index` in the music queue",
+    "invalidIndex": "Please provide the index of the song you want information about",
+    "indexOutOfBounds": "The index you gave me isn't in the queue",
+    "noTags": "No tags",
+    "field": {
+      "tags": "Tags",
+      "views": "Views",
+      "duration": "Duration",
+      "uploadDate": "Upload Date",
+      "likeInfo": "Likes-Dislikes"
+    }
+  },
+  "skip": {
+    "description": "Skips the current song in the queue, if something is playing"
+  },
+  "shuffle": {
+    "description": "Shuffles the music queue. Note that index 1 cannot be shuffled because it is the currently playing song",
+    "success": "Successfully shuffled the queue"
+  },
+  "skipto": {
+    "description": "Skip the queue to the specified index. Note that you cannot skip to the current song since it is already playing",
+    "invalidIndex": "Please provide the index of the song you want information about",
+    "indexOutOfBounds": "The index you gave me isn't in the queue",
+    "cannotSkipCurrentSong": "I can't skip to the currently playing song because it's already playing! If you want to skip it entirely run ~skip"
+  },
+  "qremove": {
+    "description": "Remove the song at the specified index from the queue. `~qremove 1` has the same effect as `~skip`",
+    "success": "Successfully removed %s from the queue",
+    "invalidIndex": "Please provide the index of the song to remove",
+    "indexOutOfBounds": "The index you gave me isn't in the queue"
+  },
+  "pause": {
+    "description": "Pauses music playback while keeping all songs in the queue"
+  },
+  "play": {
+    "description": "Resumes music playback if the queue was paused. To add a song for playback use `~add`"
   }
 }
