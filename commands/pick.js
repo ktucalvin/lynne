@@ -15,7 +15,7 @@ module.exports = {
     const behavior = getopts(args, optmap).get('flags').pop()
 
     if (behavior === 'card') {
-      message.channel.send(_s('pick.card.draw', { value: __('pick.card.values')[randInt(0, 12)], suit: __('pick.card.suits')[randInt(0, 3)] }))
+      message.channel.send(_s('pick.card.draw', { value: __('pick.card.values'), suit: __('pick.card.suits') }))
       return
     }
 
