@@ -37,7 +37,7 @@ client.on('message', message => {
 
 function handleError (message, err) {
   if (err instanceof OperationalError) {
-    if (err.key) message.channel.send(i18n.substitute(err.key, err.data, message.guild.id))
+    if (err.key) message.channel.send(i18n.substitute(err.key, message.guild.id, err.data))
   } else {
     console.error(`Terminating process due to non-user error while processing command`)
     console.error(err)
