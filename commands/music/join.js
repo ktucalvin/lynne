@@ -5,6 +5,7 @@ const OperationalError = require('$structures/OperationalError')
 module.exports = {
   name: 'join',
   usage: ['join'],
+  role: 'Music',
   execute (message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
     const channel = message.member.voiceChannel

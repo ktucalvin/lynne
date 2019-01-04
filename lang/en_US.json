@@ -2,6 +2,7 @@
   "main": {
     "commandNotFound": "That's not a command that I understand, sorry!",
     "insufficientPermission": "You don't permission to do that",
+    "missingRole": "You need the `%s` role to execute that command",
     "unknownError": "An unknown error has occured!"
   },
   "permission": {
@@ -31,6 +32,7 @@
       "description": "Description",
       "usage": "Usage",
       "permissions": "Permissions",
+      "role": "Role",
       "cooldown": "Cooldown"
     }
   },

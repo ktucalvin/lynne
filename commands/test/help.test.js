@@ -47,4 +47,9 @@ describe('help', function () {
     help(message, ['devreload'])
     expect(spy).to.have.been.calledWith('help.property.aliases')
   })
+
+  it('prints a command\'s required role if it has one', function () {
+    help(message, ['add'])
+    expect(spy).to.have.been.calledWith('help.property.role')
+  })
 })

@@ -6,6 +6,7 @@ module.exports = {
   name: 'qremove',
   usage: ['qremove index'],
   aliases: ['qrem'],
+  role: 'Music',
   execute (message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
     const Q = manager.getQueue(message.guild.id)

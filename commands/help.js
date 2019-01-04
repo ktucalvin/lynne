@@ -47,6 +47,7 @@ module.exports = {
         .addField(__('help.property.description'), __(`${command.name}.description`) + (getOptDescription(command, __) || ''))
         .addField(__('help.property.usage'), command.usage.map(e => '`' + e + '`').join('\n'))
       if (command.aliases) { embed.addField(__('help.property.aliases'), command.aliases) }
+      if (command.role) { embed.addField(__('help.property.role'), command.role) }
       // if (command.cooldown) { embed.addField(__('help.property.cooldown'), command.cooldown) }
       if (command.permission) { embed.addField(__('help.property.permissions'), __(`permission.${command.permission}`)) }
     }

@@ -14,7 +14,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.author.bot) { return }
-  const { __ } = i18n.useGuild(message.guild.id)
+  const { __, _s } = i18n.useGuild(message.guild.id)
   try {
     const { name, args } = parse(message.content)
     if (!name) { return }
@@ -26,12 +26,17 @@ client.on('message', message => {
       message.channel.send(__('main.insufficientPermission'))
       return
     }
+    const missingRole = command.role && !message.member.roles.find(role => role.name.toLowerCase() === command.role.toLowerCase())
+    if (missingRole && !message.member.permissions.has('ADMINISTRATOR')) {
+      message.channel.send(_s('main.missingRole', command.role))
+      return
+    }
 
     Promise.resolve()
       .then(() => command.execute(message, args))
       .catch(err => handleError(message, err))
   } catch (err) {
-    handleError(err)
+    handleError(message, err)
   }
 })
 

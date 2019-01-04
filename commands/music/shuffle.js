@@ -4,6 +4,7 @@ const manager = require('./QueueManager')
 module.exports = {
   name: 'shuffle',
   usage: ['shuffle'],
+  role: 'Music',
   execute (message, args) {
     const { __ } = i18n.useGuild(message.guild.id)
     let Q = manager.getQueue(message.guild.id)

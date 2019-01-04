@@ -40,6 +40,7 @@ module.exports = {
   name: 'add',
   optmap,
   usage: ['add <song>'],
+  role: 'Music',
   execute (message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
     let url = args[0]
