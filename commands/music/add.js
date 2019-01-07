@@ -43,11 +43,11 @@ module.exports = {
   role: 'Music',
   execute (message, args) {
     const { __, _s } = i18n.useGuild(message.guild.id)
+    const secret = getopts(args, optmap).get('flags').length
     let url = args[0]
     if (!args.length) { message.channel.send(__('add.insufficientArgs')); return }
     if (!ytdl.validateURL(url)) { message.channel.send(__('add.invalidURL')); return }
     url = `https://www.youtube.com/watch?v=${ytdl.getURLVideoID(url)}`
-    const secret = getopts(args, optmap).get('flags').length
 
     return (message.guild.me.voiceChannel ? Promise.resolve() : join(message))
       .then(() => manager.add(url, message.guild.id, secret))
