@@ -2,59 +2,19 @@
 require('dotenv').config()
 require('module-alias/register')
 const { Client } = require('discord.js')
-const { parse } = require('$lib/parser')
 const i18n = require('$lib/i18n')
-const OperationalError = require('$structures/OperationalError')
-const registry = require('$lib/registry')
-
 const client = new Client()
-client.on('ready', () => {
-  console.log('Mystia has woken up!')
-})
+const handleMessage = require('./handlers/message-handler')
 
-client.on('message', message => {
-  if (message.author.bot) { return }
-  const { __, _s } = i18n.useGuild(message.guild.id)
-  try {
-    const { name, args } = parse(message.content)
-    if (!name) { return }
-    const command = registry.fetch(name)
-    const permissions = message.member.permissions
+client.on('ready', () => console.log('Mystia has woken up!'))
 
-    if (!command) { message.channel.send(__('main.commandNotFound')); return }
-    if (command.permission && !permissions.has(command.permission)) {
-      message.channel.send(__('main.insufficientPermission'))
-      return
-    }
-    const missingRole = command.role && !message.member.roles.find(role => role.name.toLowerCase() === command.role.toLowerCase())
-    if (missingRole && !message.member.permissions.has('ADMINISTRATOR')) {
-      message.channel.send(_s('main.missingRole', command.role))
-      return
-    }
+client.on('message', handleMessage)
 
-    Promise.resolve()
-      .then(() => command.execute(message, args))
-      .catch(err => handleError(message, err))
-  } catch (err) {
-    handleError(message, err)
-  }
-})
-
-function handleError (message, err) {
-  if (err instanceof OperationalError) {
-    if (err.key) message.channel.send(i18n.substitute(err.key, message.guild.id, err.data))
-  } else {
-    console.error(`Terminating process due to non-user error while processing command`)
-    console.error(err)
-    close(1)
-  }
-}
-
-function close (status) {
+function close () {
   console.log('\nMystia is going to sleep!')
   i18n.saveServerLocalizations()
   client.destroy()
-  process.exit(status || 0)
+  process.exit(0)
 }
 
 process.on('SIGINT', close)
