@@ -23,7 +23,7 @@ module.exports = {
   usage: ['help [command]'],
   execute (message, args) {
     if (!registry) { registry = require('$lib/registry') }
-    const { __ } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setTitle(__('help.wikiExplanation'))

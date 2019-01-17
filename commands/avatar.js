@@ -5,7 +5,7 @@ module.exports = {
   name: 'avatar',
   usage: ['avatar [user]'],
   execute (message, args) {
-    const { __ } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     if (args.length === 0) {
       message.channel.send(message.author.avatarURL)
     } else {

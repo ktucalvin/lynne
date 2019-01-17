@@ -10,16 +10,12 @@ const expect = chai.expect
 chai.use(require('sinon-chai'))
 
 describe('pick', function () {
-  let translate, substitute, message
+  let translate, message
   beforeEach(function () {
     message = new Message()
     translate = sinon.spy(i18n, 'translate')
-    substitute = sinon.spy(i18n, 'substitute')
   })
-  afterEach(function () {
-    translate.restore()
-    substitute.restore()
-  })
+  afterEach(function () { translate.restore() })
 
   it('notifies user if less than two arguments provided', function () {
     pick(message, [])
@@ -28,18 +24,18 @@ describe('pick', function () {
 
   it('picks from a range of given options', function () {
     pick(message, ['a', 'b'])
-    expect(substitute).to.be.calledWith('pick.choose', sinon.match.string)
+    expect(translate).to.be.calledWith('pick.choose', sinon.match.string)
   })
 
   describe('#range', function () {
     it('picks from a numeric range if passed -r', function () {
       pick(message, ['-r', '--', '-100', '100'])
-      expect(substitute).to.be.calledWith('pick.choose', sinon.match(val => val >= -100 && val <= 100, 'chosen value not in range'))
+      expect(translate).to.be.calledWith('pick.choose', sinon.match(val => val >= -100 && val <= 100, 'chosen value not in range'))
     })
 
     it('automatically swaps numeric bounds if given out of order', function () {
       pick(message, ['-r', '--', '100', '-100'])
-      expect(substitute).to.be.calledWith('pick.choose', sinon.match(val => val >= -100 && val <= 100, 'chosen value not in range'))
+      expect(translate).to.be.calledWith('pick.choose', sinon.match(val => val >= -100 && val <= 100, 'chosen value not in range'))
     })
 
     it('rejects non-numeric input for ranged pick', function () {
@@ -51,7 +47,7 @@ describe('pick', function () {
   describe('#card', function () {
     it('picks a card if passed -c', function () {
       pick(message, ['-c'])
-      expect(substitute).to.be.calledWith('pick.card.draw')
+      expect(translate).to.be.calledWith('pick.card.draw')
     })
   })
 })

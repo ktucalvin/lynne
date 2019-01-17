@@ -19,10 +19,10 @@ module.exports = {
       return
     }
 
-    const { __, _s } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const opts = getopts(args, optmap)
     if (opts.get('flags').length) {
-      ref ? message.channel.send(_s('echo.getref.notice', `<#${ref.id}>`)) : message.channel.send(__('echo.getref.noReference'))
+      ref ? message.channel.send(__('echo.getref.notice', `<#${ref.id}>`)) : message.channel.send(__('echo.getref.noReference'))
       return
     }
 
@@ -35,7 +35,7 @@ module.exports = {
     if (out) {
       out.send(str)
     } else if (ref) {
-      str !== '_ _' ? ref.send(str) : message.channel.send(_s('echo.setref.notice', setref))
+      str !== '_ _' ? ref.send(str) : message.channel.send(__('echo.setref.notice', setref))
     } else {
       message.channel.send(str)
     }

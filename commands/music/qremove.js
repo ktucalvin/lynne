@@ -8,7 +8,7 @@ module.exports = {
   aliases: ['qrem'],
   role: 'Music',
   execute (message, args) {
-    const { __, _s } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const Q = manager.getQueue(message.guild.id)
     const index = parseInt(args[0])
 
@@ -31,6 +31,6 @@ module.exports = {
 
     const song = Q[index - 1]
     Q.splice(index - 1, 1)
-    message.channel.send(_s('qremove.success', song.title))
+    message.channel.send(__('qremove.success', song.title))
   }
 }

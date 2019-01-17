@@ -7,12 +7,12 @@ module.exports = {
   usage: ['join'],
   role: 'Music',
   execute (message, args) {
-    const { __, _s } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const channel = message.member.voiceChannel
     if (channel) {
       return channel.join()
         .then(c => {
-          message.channel.send(_s('join.success', { channel: channel.name }))
+          message.channel.send(__('join.success', { channel: channel.name }))
           return c
         })
     } else {

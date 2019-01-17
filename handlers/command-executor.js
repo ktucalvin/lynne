@@ -4,7 +4,7 @@ const i18n = require('$lib/i18n')
 const registry = require('$lib/registry')
 
 module.exports = async function executeCommand (message, next) {
-  const { __, _s } = i18n.useGuild(message.guild.id)
+  const __ = i18n.useGuild(message.guild.id)
   const { name, args } = parse(message.content)
   if (!name) { return }
   const command = registry.fetch(name)
@@ -17,7 +17,7 @@ module.exports = async function executeCommand (message, next) {
   }
   const missingRole = command.role && !message.member.roles.find(role => role.name.toLowerCase() === command.role.toLowerCase())
   if (missingRole && !message.member.permissions.has('ADMINISTRATOR')) {
-    message.channel.send(_s('main.missingRole', command.role))
+    message.channel.send(__('main.missingRole', command.role))
     return
   }
   await command.execute(message, args)

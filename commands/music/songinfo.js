@@ -8,7 +8,7 @@ module.exports = {
   usage: ['songinfo index'],
   aliases: ['sinfo'],
   execute (message, args) {
-    const { __ } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const Q = manager.getQueue(message.guild.id)
     if (!Q || !Q.length) {
       message.channel.send(__('queue.notPlaying'))

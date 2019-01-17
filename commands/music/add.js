@@ -42,7 +42,7 @@ module.exports = {
   usage: ['add <song>'],
   role: 'Music',
   execute (message, args) {
-    const { __, _s } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const secret = getopts(args, optmap).get('flags').length
     let url = args[0]
     if (!args.length) { message.channel.send(__('add.insufficientArgs')); return }
@@ -52,7 +52,7 @@ module.exports = {
     return (message.guild.me.voiceChannel ? Promise.resolve() : join(message))
       .then(() => manager.add(url, message.guild.id, secret))
       .then(song => {
-        if (!song.secret) message.channel.send(_s('add.success', song.title))
+        if (!song.secret) message.channel.send(__('add.success', song.title))
         play(message)
       })
       .catch(err => {

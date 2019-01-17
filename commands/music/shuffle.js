@@ -6,7 +6,7 @@ module.exports = {
   usage: ['shuffle'],
   role: 'Music',
   execute (message, args) {
-    const { __ } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     let Q = manager.getQueue(message.guild.id)
     if (!Q || !Q.length) {
       message.channel.send(__('queue.notPlaying'))

@@ -8,12 +8,12 @@ module.exports = {
   usage: ['locale <get|list>', 'locale set code'],
   permission: 'MANAGE_GUILD',
   execute (message, args) {
-    const { __, _s } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     if (args.length === 0) { message.channel.send(__('locale.noBehaviorSpecified')); return }
 
     switch (args[0]) {
       case 'get':
-        message.channel.send(_s('locale.get', i18n.getServerLocale(message.guild.id)))
+        message.channel.send(__('locale.get', i18n.getServerLocale(message.guild.id)))
         break
       case 'set':
         const locale = args[1]
@@ -23,7 +23,7 @@ module.exports = {
           message.channel.send(__('locale.set.localeUnavailable'))
         } else {
           i18n.setServerLocale(message.guild.id, locale)
-          message.channel.send(_s('locale.set.success', locale))
+          message.channel.send(__('locale.set.success', locale))
         }
         break
       case 'list':

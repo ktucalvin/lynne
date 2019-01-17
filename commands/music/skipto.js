@@ -6,7 +6,7 @@ module.exports = {
   usage: ['skipto index'],
   role: 'Music',
   execute (message, args) {
-    const { __ } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const dispatcher = manager.getDispatcher(message.guild.id)
     const Q = manager.getQueue(message.guild.id)
     const index = parseInt(args[0])

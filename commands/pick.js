@@ -11,11 +11,11 @@ module.exports = {
   optmap,
   usage: ['pick -c', 'pick [-r] option1 option2 [options...]'],
   execute (message, args) {
-    const { __, _s } = i18n.useGuild(message.guild.id)
+    const __ = i18n.useGuild(message.guild.id)
     const behavior = getopts(args, optmap).get('flags').pop()
 
     if (behavior === 'card') {
-      message.channel.send(_s('pick.card.draw', { value: __('pick.card.values'), suit: __('pick.card.suits') }))
+      message.channel.send(__('pick.card.draw', { value: __('pick.card.values'), suit: __('pick.card.suits') }))
       return
     }
 
@@ -29,9 +29,9 @@ module.exports = {
       if (args[0] > args[1]) {
         [args[1], args[0]] = [args[0], args[1]]
       }
-      message.channel.send(_s('pick.choose', randInt(args[0], args[1])))
+      message.channel.send(__('pick.choose', randInt(args[0], args[1])))
     } else {
-      message.channel.send(_s('pick.choose', args[Math.floor(Math.random() * args.length)]))
+      message.channel.send(__('pick.choose', args[Math.floor(Math.random() * args.length)]))
     }
   }
 }
