@@ -2,6 +2,7 @@
 const i18n = require('$lib/i18n')
 const manager = require('./QueueManager')
 const skip = require('./skip').execute
+
 module.exports = {
   name: 'qremove',
   usage: ['qremove index'],

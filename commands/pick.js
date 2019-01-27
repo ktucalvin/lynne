@@ -1,7 +1,7 @@
 'use strict'
 const i18n = require('$lib/i18n')
 const { getopts } = require('$lib/parser')
-const randInt = require('$lib/utils').randInt
+const { randInt } = require('$lib/utils')
 const optmap = new Map()
   .set('ranged', { alias: 'r' })
   .set('card', { alias: 'c' })
@@ -31,7 +31,7 @@ module.exports = {
       }
       message.channel.send(__('pick.choose', randInt(args[0], args[1])))
     } else {
-      message.channel.send(__('pick.choose', args[Math.floor(Math.random() * args.length)]))
+      message.channel.send(__('pick.choose', args[randInt(0, args.length - 1)]))
     }
   }
 }

@@ -2,6 +2,7 @@
 const { RichEmbed } = require('discord.js')
 const i18n = require('$lib/i18n')
 const manager = require('./QueueManager')
+
 module.exports = {
   name: 'queue',
   usage: ['queue'],

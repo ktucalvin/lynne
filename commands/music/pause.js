@@ -1,5 +1,6 @@
 'use strict'
 const manager = require('./QueueManager')
+
 module.exports = {
   name: 'pause',
   usage: ['pause'],

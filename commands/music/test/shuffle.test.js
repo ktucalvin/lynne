@@ -8,8 +8,8 @@ const Message = require('$structures/FakeMessage')
 const manager = require('../QueueManager')
 const shuffle = require('../shuffle').execute
 const expect = chai.expect
-chai.use(require('sinon-chai'))
 chai.use(require('dirty-chai'))
+chai.use(require('sinon-chai'))
 
 describe('shuffle', function () {
   let spy, message

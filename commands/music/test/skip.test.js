@@ -8,8 +8,8 @@ const VoiceChannel = require('$structures/FakeVoiceChannel')
 const manager = require('../QueueManager')
 const skip = require('../skip').execute
 const expect = chai.expect
-chai.use(require('sinon-chai'))
 chai.use(require('dirty-chai'))
+chai.use(require('sinon-chai'))
 
 describe('skip', function () {
   let spy, message, dispatcher

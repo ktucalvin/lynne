@@ -3,11 +3,10 @@ require('dotenv').config()
 require('module-alias/register')
 const { Client } = require('discord.js')
 const i18n = require('$lib/i18n')
-const client = new Client()
 const handleMessage = require('./handlers/message-handler')
+const client = new Client()
 
 client.on('ready', () => console.log('Mystia has woken up!'))
-
 client.on('message', handleMessage)
 
 function close () {

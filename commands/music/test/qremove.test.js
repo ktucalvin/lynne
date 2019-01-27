@@ -9,8 +9,8 @@ const VoiceChannel = require('$structures/FakeVoiceChannel')
 const manager = require('../QueueManager')
 const qremove = require('../qremove').execute
 const expect = chai.expect
-chai.use(require('sinon-chai'))
 chai.use(require('dirty-chai'))
+chai.use(require('sinon-chai'))
 
 describe('qremove', function () {
   let spy, message

@@ -20,7 +20,6 @@ module.exports = {
     }
 
     const detailed = getopts(args, optmap).get('flags').length
-
     if (detailed) {
       songinfo(message, ['1'])
     } else {

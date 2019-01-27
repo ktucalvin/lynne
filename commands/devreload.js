@@ -1,6 +1,7 @@
 'use strict'
 const i18n = require('$lib/i18n')
 let registry
+
 module.exports = {
   name: 'devreload',
   usage: ['devreload'],

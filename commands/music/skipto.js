@@ -1,6 +1,7 @@
 'use strict'
 const i18n = require('$lib/i18n')
 const manager = require('./QueueManager')
+
 module.exports = {
   name: 'skipto',
   usage: ['skipto index'],
