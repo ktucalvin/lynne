@@ -42,7 +42,6 @@
   },
   "echo": {
     "description": "Mystia echoes what you say!",
-    "clearRef": "Successfully cleared reference channel",
     "getref": {
       "description": "Gets the current reference channel",
       "notice": "Current reference is set to %s",
@@ -50,7 +49,9 @@
     },
     "setref": {
       "description": "Sets a reference channel to print all following calls to this command to. Passing \"none\" will remove the current reference channel",
-      "notice": "Set reference channel to %s"
+      "notice": "Set reference channel to %s",
+      "clear": "Successfully cleared reference channel",
+      "notFound": "Reference channel not found"
     },
     "to": {
       "description": "Print to the specified channel, ignoring the set reference channel"

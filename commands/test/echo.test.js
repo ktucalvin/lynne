@@ -67,15 +67,12 @@ describe('echo', function () {
     it('clears the reference channel when given "none"', function () {
       echo(message, ['--setref', 'none', 'string'])
       echo(message, ['second'])
-      expect(translate).to.be.calledWith('echo.clearRef')
-      expect(originalChannel).to.be.calledWith('string_ _')
-        .and.to.be.calledWith('second_ _')
+      expect(translate).to.be.calledWith('echo.setref.clear')
     })
 
-    it('only sends to reference channel if there is a message', function () {
-      echo(message, ['--setref', '<#0>'])
-      expect(zeroChannel).to.not.be.called()
-      expect(translate).to.be.calledWith('echo.setref.notice')
+    it('notifies user if channel could not be found', function () {
+      echo(message, ['--setref', '#nonexistent-channel', 'string'])
+      expect(translate).to.be.calledWith('echo.setref.notFound')
     })
   })
 

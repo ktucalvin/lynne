@@ -5,7 +5,7 @@ const optmap = new Map()
   .set('to', { alias: 't', hasParam: true })
   .set('setref', { alias: 's', hasParam: true })
   .set('getref', { alias: 'g' })
-let ref
+const references = new Map()
 
 module.exports = {
   name: 'echo',
@@ -14,30 +14,34 @@ module.exports = {
   usage: ['echo [string]'],
   permission: 'MANAGE_GUILD',
   execute (message, args) {
-    if (!args.length) {
-      message.channel.send('_ _') // send blank line
-      return
-    }
-
     const __ = i18n.useGuild(message.guild.id)
     const opts = getopts(args, optmap)
+
     if (opts.get('flags').length) {
+      const ref = references.get(message.guild.id)
       ref ? message.channel.send(__('echo.getref.notice', `<#${ref.id}>`)) : message.channel.send(__('echo.getref.noReference'))
       return
     }
 
-    const setref = opts.get('setref')
-    const out = opts.get('to') ? message.mentions.channels.find(cmd => opts.get('to').includes(cmd.id)) : undefined
-    ref = setref ? message.mentions.channels.find(cmd => setref.includes(cmd.id)) : ref
-    if (setref === 'none') { ref = null; message.channel.send(__('echo.clearRef')) }
-
-    const str = args.join(' ') + '_ _'
-    if (out) {
-      out.send(str)
-    } else if (ref) {
-      str !== '_ _' ? ref.send(str) : message.channel.send(__('echo.setref.notice', setref))
-    } else {
-      message.channel.send(str)
+    if (opts.get('setref')) {
+      const setref = opts.get('setref')
+      if (setref === 'none') {
+        message.channel.send(__('echo.setref.clear'))
+        references.set(message.guild.id, null)
+        return
+      }
+      const channel = message.mentions.channels.find(cmd => setref.includes(cmd.id))
+      if (channel) {
+        message.channel.send(__('echo.setref.notice', setref))
+        references.set(message.guild.id, channel)
+      } else {
+        message.channel.send(__('echo.setref.notFound'))
+      }
     }
+
+    const to = opts.get('to') ? message.mentions.channels.find(cmd => opts.get('to').includes(cmd.id)) : undefined
+    const out = to || references.get(message.guild.id) || message.channel
+    const str = args.join(' ') + '_ _'
+    out.send(str)
   }
 }
