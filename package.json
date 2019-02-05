@@ -35,8 +35,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-all": "./test.sh",
-    "test-coverage": "nyc --reporter=text --reporter=html ./test.sh"
+    "test-all": "find . -not -path \"*node_modules*\" -name \"*test\" | xargs mocha",
+    "test-coverage": "find . -not -path \"*node_modules*\" -name \"*test\" | xargs nyc --reporter=html --reporter=text mocha"
   },
   "repository": {
     "type": "git",

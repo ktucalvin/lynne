@@ -1,18 +1,19 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
+const mockery = require('mockery')
 const i18n = require('$lib/i18n')
 const Message = require('$structures/FakeMessage')
 const expect = chai.expect
-chai.use(require('dirty-chai'))
-chai.use(require('sinon-chai'))
 
-const mockery = require('mockery')
-const mock = () => {}
-mock.validateURL = require('ytdl-core').validateURL
-mock.getURLVideoID = () => {}
+const ytdlMock = () => {}
+ytdlMock.validateURL = require('ytdl-core').validateURL
+ytdlMock.getURLVideoID = () => {}
+const originalJoin = require('../join').execute
+const joinMock = { execute: message => message.doNotConnect ? Promise.resolve(null) : originalJoin(message, []) }
 
 const fakeMetadata = {
   view_count: 0,
@@ -21,21 +22,19 @@ const fakeMetadata = {
   tags: []
 }
 
-const originalJoin = require('../join').execute
-const joinMock = { execute: message => message.doNotConnect ? Promise.resolve(null) : originalJoin(message, []) }
-delete require.cache[require.resolve('../join')]
-
-mockery.enable()
-mockery.warnOnUnregistered(false)
-mockery.registerMock('ytdl-core', mock)
-mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [fakeMetadata] }) })
-mockery.registerMock('./join', joinMock)
-
-const manager = require('../QueueManager')
-const add = require('../add').execute
-
 describe('add', function () {
+  let add, manager
   let translate, play, message
+  before(function () {
+    mockery.enable()
+    mockery.warnOnUnregistered(false)
+    mockery.registerMock('ytdl-core', ytdlMock)
+    mockery.registerMock('ytdl-getinfo', { getInfo: () => Promise.resolve({ items: [fakeMetadata] }) })
+    mockery.registerMock('./join', joinMock)
+    delete require.cache[require.resolve('../QueueManager')]
+    manager = require('../QueueManager')
+    add = require('../add').execute
+  })
   beforeEach(function () {
     message = new Message()
     message._createVoiceChannel()

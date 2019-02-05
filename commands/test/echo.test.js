@@ -1,14 +1,13 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
 const Message = require('$structures/FakeMessage')
 let echo = require('../echo').execute
 const expect = chai.expect
-chai.use(require('dirty-chai'))
-chai.use(require('sinon-chai'))
 
 describe('echo', function () {
   let originalChannel, message, zeroChannel, translate

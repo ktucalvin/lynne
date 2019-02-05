@@ -1,13 +1,13 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const OperationalError = require('$structures/OperationalError')
 const Message = require('$structures/FakeMessage')
 const VoiceChannel = require('$structures/FakeVoiceChannel')
 const join = require('../join').execute
 const expect = chai.expect
-chai.use(require('chai-as-promised'))
 
 describe('join', function () {
   let message

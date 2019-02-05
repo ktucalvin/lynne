@@ -1,6 +1,7 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
 const { RichEmbed } = require('discord.js')
@@ -10,7 +11,6 @@ const VoiceChannel = require('$structures/FakeVoiceChannel')
 const manager = require('../QueueManager')
 const queue = require('../queue').execute
 const expect = chai.expect
-chai.use(require('sinon-chai'))
 
 describe('queue', function () {
   let spy, message, dispatcher

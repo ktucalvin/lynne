@@ -1,14 +1,14 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
+const registry = require('$lib/registry')
 const Message = require('$structures/FakeMessage')
-let help = require('../help').execute
+const help = require('../help').execute
 const expect = chai.expect
-chai.use(require('sinon-chai'))
-require('$lib/registry')
 
 describe('help', function () {
   let spy, message
@@ -17,6 +17,7 @@ describe('help', function () {
     spy = sinon.spy(i18n, 'translate')
   })
   afterEach(function () { spy.restore() })
+  after(function () { registry.purge() })
 
   it('prints a list of commands given no arguments', function () {
     help(message, [])

@@ -1,6 +1,7 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
@@ -8,8 +9,6 @@ const Message = require('$structures/FakeMessage')
 const manager = require('../QueueManager')
 const shuffle = require('../shuffle').execute
 const expect = chai.expect
-chai.use(require('dirty-chai'))
-chai.use(require('sinon-chai'))
 
 describe('shuffle', function () {
   let spy, message
@@ -26,7 +25,7 @@ describe('shuffle', function () {
   })
 
   it('shuffles the queue except for the playing song', function () {
-    const pre = '1234567890'.split('')
+    const pre = '1234567890abcdefghijklmnopqrstuvwxyz'.split('')
     manager._inject({ queue: pre.slice(0) }, message.guild.id)
     shuffle(message, [])
     const post = manager.getQueue(message.guild.id)

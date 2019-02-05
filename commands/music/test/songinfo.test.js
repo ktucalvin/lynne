@@ -1,6 +1,7 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
 const i18n = require('$lib/i18n')
@@ -9,7 +10,6 @@ const VoiceChannel = require('$structures/FakeVoiceChannel')
 const manager = require('../QueueManager')
 const songinfo = require('../songinfo').execute
 const expect = chai.expect
-chai.use(require('sinon-chai'))
 
 const fakeMetadata = {
   view_count: 0,
@@ -25,6 +25,7 @@ describe('songinfo', function () {
     spy = sinon.spy(i18n, 'translate')
   })
   afterEach(function () { spy.restore() })
+  after(function () { manager.flush(message.guild.id) })
 
   it('notifies user nothing is playing when queue is empty', function () {
     songinfo(message, [])

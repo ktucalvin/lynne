@@ -1,6 +1,7 @@
 'use strict'
 /* eslint-env mocha */
 require('module-alias/register')
+require('$lib/chai-plugins')
 const chai = require('chai')
 const sinon = require('sinon')
 const Message = require('$structures/FakeMessage')
@@ -8,8 +9,6 @@ const VoiceChannel = require('$structures/FakeVoiceChannel')
 const manager = require('../QueueManager')
 const play = require('../play').execute
 const expect = chai.expect
-chai.use(require('dirty-chai'))
-chai.use(require('sinon-chai'))
 
 describe('play', function () {
   let spy, message, dispatcher
