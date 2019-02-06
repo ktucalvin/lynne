@@ -1,7 +1,7 @@
 {
   "name": "mystia",
-  "version": "0.1.0",
-  "description": "A Discord bot built with Discord.js for simple moderation, music playback, and for chatting.",
+  "version": "0.5.6",
+  "description": "A Discord bot built with Discord.js for simple moderation and music playback with an extensible framework.",
   "main": "index.js",
   "directories": {
     "test": "test"

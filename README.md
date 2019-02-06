@@ -1,13 +1,13 @@
 # Mystia
 
-A Discord bot built with Discord.js for simple moderation, music playback, and for chatting.
+A Discord bot built with Discord.js for simple moderation and music playback with an extensible framework.
 
 ## Getting Started
 
 No bot join link until I can afford hosting!  
 If you want to host her yourself:
 
-* Clone this repo with
+* Clone this repo
     * Click on the (+) icon on the side of this page
 * Install dependencies with `npm install`
 * Create a .env file and add your token to it
