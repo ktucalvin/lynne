@@ -164,5 +164,19 @@
   },
   "play": {
     "description": "Resumes music playback if the queue was paused. To add a song for playback use `~add`"
+  },
+  "kick": {
+    "description": "Kicks all the mentioned users from the server.",
+    "noUsersMentioned": "Please mention the users you want to kick!",
+    "reasonTitle": "Reason",
+    "successTitle": "Successfully kicked: ",
+    "failTitle": "Failed to kick: ",
+    "DMExplanation": "I'm sorry but you were kicked from the `%(name)` server!\nReason: %(reason)",
+    "reason": {
+      "description": "Provides a reason for kicking the users"
+    },
+    "silent": {
+      "description": "Kick users without messaging them or notifying the channel"
+    }
   }
 }
