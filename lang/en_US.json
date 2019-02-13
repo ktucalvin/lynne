@@ -196,5 +196,11 @@
     "days": {
       "description": "Number of days of messages to delete"
     }
+  },
+  "unban": {
+    "description": "Unbans the specified username",
+    "userNotFound": "I couldn't find the user to unban, try using the server management window",
+    "success": "Successfully unbanned %s",
+    "multipleUsersFound": "Multiple users were found with that name, try providing a discriminator or using the server management window"
   }
 }
