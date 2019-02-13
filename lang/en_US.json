@@ -178,5 +178,23 @@
     "silent": {
       "description": "Kick users without messaging them or notifying the channel"
     }
+  },
+  "ban": {
+    "description": "Bans all the mentioned users from the server.",
+    "noUsersMentioned": "Please mention the users you want to ban!",
+    "reasonTitle": "Reason",
+    "successTitle": "Successfully banned: ",
+    "failTitle": "Failed to ban: ",
+    "DMExplanation": "I'm sorry but you were banned from the `%(name)` server!\nReason: %(reason)",
+    "invalidNumberOfDays": "The number of days to delete messages from the banned user you gave me is invalid",
+    "reason": {
+      "description": "Provides a reason for banning the users"
+    },
+    "silent": {
+      "description": "Bans users without messaging them or notifying the channel"
+    },
+    "days": {
+      "description": "Number of days of messages to delete"
+    }
   }
 }
