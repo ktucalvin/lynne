@@ -202,5 +202,11 @@
     "userNotFound": "I couldn't find the user to unban, try using the server management window",
     "success": "Successfully unbanned %s",
     "multipleUsersFound": "Multiple users were found with that name, try providing a discriminator or using the server management window"
+  },
+  "vccontrol": {
+    "description": "Mute, deafen, move, or disconnect members and roles from a voice channel. Can only disconnect one member at a time. If a member has no voice channel, the command will have no effect. This command can affect other moderators.",
+    "unrecognizedCommand": "Unrecognized subcommand. Please use `~help vcc` to find available subcommands.",
+    "channelNotFound": "Could not find a voice channel with the name `%s`.",
+    "multipleChannelsFound": "Found multiple voice channels with the name `%s`. You cannot which one to move to without renaming it."
   }
 }
