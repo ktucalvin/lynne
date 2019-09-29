@@ -1,11 +1,9 @@
 {
-  "name": "mystia",
-  "version": "0.5.6+1",
-  "description": "A Discord bot built with Discord.js for simple moderation and music playback with an extensible framework.",
+  "name": "lynne",
+  "version": "0.6.0",
+  "description": "A Discord bot built with Discord.js for simple moderation and music playback.",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "private": true,
   "_moduleAliases": {
     "$config": "config.json",
     "$lib": "lib",
@@ -40,12 +38,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://ktucalvin@bitbucket.org/ktucalvin/mystia.git"
+    "url": "git+https://github.com/ktucalvin/lynne.git"
   },
   "keywords": [
     "discord"
   ],
   "author": "ktucalvin",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/ktucalvin/mystia#readme"
+  "homepage": "https://github.com/ktucalvin/lynne"
 }

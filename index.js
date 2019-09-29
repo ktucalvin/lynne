@@ -6,11 +6,11 @@ const i18n = require('$lib/i18n')
 const handleMessage = require('./handlers/message-handler')
 const client = new Client()
 
-client.on('ready', () => console.log('Mystia has woken up!'))
+client.on('ready', () => console.log('Lynne has woken up!'))
 client.on('message', handleMessage)
 
 function close () {
-  console.log('\nMystia is going to sleep!')
+  console.log('\nLynne is going to sleep!')
   i18n.saveServerLocalizations()
   client.destroy()
   process.exit(0)

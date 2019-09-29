@@ -1,9 +1,9 @@
 {
   "main": {
     "commandNotFound": "That's not a command that I understand, sorry!",
-    "insufficientPermission": "You don't permission to do that",
-    "missingRole": "You need the `%s` role to execute that command",
-    "unknownError": "An unknown error has occured!"
+    "insufficientPermission": "You don't have permission to do that.",
+    "missingRole": "You need the `%s` role to execute that command.",
+    "unknownError": "An unknown error has occured."
   },
   "permission": {
     "ADMINISTRATOR": "Administrator",
@@ -17,16 +17,16 @@
     "MANAGE_ROLES": "Manage Roles"
   },
   "parser": {
-    "missingQuote": "You're missing a quotation mark so I can't understand what you mean!",
+    "missingQuote": "Cannot parse command due to missing quotation mark.",
     "unknownOption": "Unrecognized option: `%(option)`",
     "parameterizedBeforeStandalone": "Option `%(option)` requires parameter and cannot be before `%(flag)`",
-    "needsArgument": "Option `%(option)` requires an argument"
+    "needsArgument": "Option `%(option)` requires an argument."
   },
   "help": {
-    "description": "Mystia helps you with a command or lists all of them!",
-    "wikiExplanation": "More information can be found on the wiki!",
-    "title": "Mystia's Commands",
-    "getDetailedInformation": "Type `~help <command>` for more information!\n",
+    "description": "Lists all commands or gets detailed information for a command.",
+    "wikiExplanation": "More information can be found on the wiki (WIP).",
+    "title": "Lynne's Commands",
+    "getDetailedInformation": "Type `~help <command>` for more information.\n",
     "property": {
       "aliases": "Aliases",
       "description": "Description",
@@ -37,28 +37,28 @@
     }
   },
   "avatar": {
-    "description": "Mystia fetches yours or someone else's profile picture!",
-    "noMentionedUsers": "Of whom did you want me to find the avatar of? Please @mention them!"
+    "description": "Fetches yours or someone else's profile picture.",
+    "noMentionedUsers": "Please @mention the users you want to fetch the avatar of."
   },
   "echo": {
-    "description": "Mystia echoes what you say!",
+    "description": "Lynne echoes what you say, optionally to a different channel.",
     "getref": {
-      "description": "Gets the current reference channel",
+      "description": "Gets the current reference channel.",
       "notice": "Current reference is set to %s",
-      "noReference": "No reference is currently set"
+      "noReference": "No reference is currently set."
     },
     "setref": {
-      "description": "Sets a reference channel to print all following calls to this command to. Passing \"none\" will remove the current reference channel",
+      "description": "Sets a reference channel to print all following calls to this command to. Passing \"none\" will remove the current reference channel.",
       "notice": "Set reference channel to %s",
-      "clear": "Successfully cleared reference channel",
-      "notFound": "Reference channel not found"
+      "clear": "Successfully cleared reference channel.",
+      "notFound": "Reference channel not found."
     },
     "to": {
-      "description": "Print to the specified channel, ignoring the set reference channel"
+      "description": "Prints to the specified channel, ignoring the set reference channel."
     }
   },
   "pick": {
-    "description": "Mystia will help you pick something!",
+    "description": "Picks a single argument from a list of given arguments.",
     "card": {
       "description": "Pick a card from a standard 52-card deck",
       "draw": "I got the %(value) of %(suit)",
@@ -66,17 +66,17 @@
       "values": ["ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "jack", "queen", "king"]
     },
     "ranged": {
-      "description": "Pick from a numeric range instead. Requires two numeric inputs",
-      "nonNumericLimit": "At least one limit is not an integer!"
+      "description": "Pick from a numeric range. Requires two numeric inputs",
+      "nonNumericLimit": "At least one limit is not an integer."
     },
     "choose": "I choose %s",
-    "insufficientOptions": "You must give me at least two options to pick from!"
+    "insufficientOptions": "At least two options are needed to pick from."
   },
   "ping": {
-    "description": "Mystia replies with pong!"
+    "description": "Lynne replies with pong!"
   },
   "locale": {
-    "description": "List available locales or set your server's locale",
+    "description": "Lists available locales or set your server's locale.",
     "noBehaviorSpecified": "No subcommand specified.\nUsage: `locale <set|list|get>`",
     "set": {
       "noLocaleSpecified": "Error: No locale was specified",
@@ -90,48 +90,48 @@
   },
   "devreload": {
     "description": "Reloads the command registry. Does not update changes to library or lang files.",
-    "done": "Finished reloading the registry"
+    "done": "Finished reloading the registry."
   },
   "join": {
-    "description": "Mystia will join your voice channel",
+    "description": "Joins Lynne to your voice channel.",
     "success": "Successfully joined `%(channel)`",
-    "noVoiceChannel": "You're not in a voice channel right now!"
+    "noVoiceChannel": "You're not in a voice channel right now."
   },
   "add": {
-    "description": "Add a song to the music queue and begin playing it if the queue is empty",
-    "insufficientArgs": "Please give me the YouTube link to a song to play!",
-    "invalidURL": "Please check the URL you gave me is a valid one, thanks~",
-    "lostConnection": "I lost connection and could not recover, so the music queue was cleared",
-    "success": "Added `%s` to the music queue",
-    "complete": "Finished playing all songs!",
+    "description": "Add a song to the music queue and begin playing it if the queue is empty/",
+    "insufficientArgs": "Insufficient arguments. Please provide YouTube link to play.",
+    "invalidURL": "Error: The given URL is not recognized as a YouTube link or is invalid.",
+    "lostConnection": "Error: Lost connection and could not recover, so the music queue was cleared",
+    "success": "Added `%s` to the music queue.",
+    "complete": "Finished playing all songs.",
     "secret": {
-      "description": "Adds a song secretly to the queue"
+      "description": "Adds a song secretly to the music queue."
     }
   },
   "leave": {
-    "description": "Mystia will leave her voice channel, if she is in one. This will also erase the music queue."
+    "description": "Removes Lynne from her current voice channel, if she is in one. This will also erase the music queue."
   },
   "queue": {
-    "description": "Prints the current music queue",
+    "description": "Prints the current music queue.",
     "title": "Music Queue",
-    "notPlaying": "Nothing is playing right now",
+    "notPlaying": "Nothing is playing right now.",
     "paused": "(paused)",
     "secret": "(secret)"
   },
   "playing": {
-    "description": "Prints the currently playing song, if there is one",
+    "description": "Prints the currently playing song, if there is one.",
     "nowPlaying": "Now Playing",
-    "secret": "The currently playing song was added secretly~",
+    "secret": "The currently playing song was added secretly.",
     "detailed": {
-      "description": "Print extra metadata. Same as calling \"songinfo 1\""
+      "description": "Prints extra metadata. Same as calling \"songinfo 1\""
     }
   },
   "songinfo": {
-    "description": "Print extra metadata about the song at `index` in the music queue",
-    "invalidIndex": "Please provide the index of the song you want information about",
-    "indexOutOfBounds": "The index you gave me isn't in the queue",
+    "description": "Prints extra metadata about the song at `index` in the music queue.",
+    "invalidIndex": "Please provide the index of the song you want information about.",
+    "indexOutOfBounds": "The index you gave me isn't in the music queue.",
     "noTags": "No tags",
-    "secret": "That song was added secretly~",
+    "secret": "That song was added secretly.",
     "field": {
       "tags": "Tags",
       "views": "Views",
@@ -141,72 +141,72 @@
     }
   },
   "skip": {
-    "description": "Skips the current song in the queue, if something is playing"
+    "description": "Skips the current song in the music queue, if something is playing."
   },
   "shuffle": {
-    "description": "Shuffles the music queue. Note that index 1 cannot be shuffled because it is the currently playing song",
-    "success": "Successfully shuffled the queue"
+    "description": "Shuffles the music queue. Note that index 1 cannot be shuffled because it is the currently playing song.",
+    "success": "Successfully shuffled the music queue."
   },
   "skipto": {
-    "description": "Skip the queue to the specified index. Note that you cannot skip to the current song since it is already playing",
-    "invalidIndex": "Please provide the index of the song you want information about",
-    "indexOutOfBounds": "The index you gave me isn't in the queue",
-    "cannotSkipCurrentSong": "I can't skip to the currently playing song because it's already playing! If you want to skip it entirely run ~skip"
+    "description": "Skip the music queue to the specified index. Note that you cannot skip to the current song since it is already playing.",
+    "invalidIndex": "Please provide the index of the song you want information about.",
+    "indexOutOfBounds": "The index you gave me isn't in the music queue.",
+    "cannotSkipCurrentSong": "Cannot skip to the currently playing song because it's already playing. If you want to skip it entirely run ~skip"
   },
   "qremove": {
-    "description": "Remove the song at the specified index from the queue. `~qremove 1` has the same effect as `~skip`",
-    "success": "Successfully removed %s from the queue",
-    "invalidIndex": "Please provide the index of the song to remove",
-    "indexOutOfBounds": "The index you gave me isn't in the queue"
+    "description": "Remove the song at the specified index from the music queue. `~qremove 1` has the same effect as `~skip`",
+    "success": "Successfully removed %s from the music queue.",
+    "invalidIndex": "Please provide the index of the song to remove.",
+    "indexOutOfBounds": "The index you gave me isn't in the music queue."
   },
   "pause": {
-    "description": "Pauses music playback while keeping all songs in the queue"
+    "description": "Pauses music playback while keeping all songs in the queue."
   },
   "play": {
     "description": "Resumes music playback if the queue was paused. To add a song for playback use `~add`"
   },
   "kick": {
     "description": "Kicks all the mentioned users from the server.",
-    "noUsersMentioned": "Please mention the users you want to kick!",
+    "noUsersMentioned": "Please mention the users you want to kick.",
     "reasonTitle": "Reason",
     "successTitle": "Successfully kicked: ",
     "failTitle": "Failed to kick: ",
-    "DMExplanation": "I'm sorry but you were kicked from the `%(name)` server!\nReason: %(reason)",
+    "DMExplanation": "I'm sorry but you were kicked from the `%(name)` server.\nReason: %(reason)",
     "reason": {
-      "description": "Provides a reason for kicking the users"
+      "description": "Provides a reason for kicking the users."
     },
     "silent": {
-      "description": "Kick users without messaging them or notifying the channel"
+      "description": "Kick users without messaging them or notifying the channel."
     }
   },
   "ban": {
     "description": "Bans all the mentioned users from the server.",
-    "noUsersMentioned": "Please mention the users you want to ban!",
+    "noUsersMentioned": "Please mention the users you want to ban.",
     "reasonTitle": "Reason",
     "successTitle": "Successfully banned: ",
     "failTitle": "Failed to ban: ",
-    "DMExplanation": "I'm sorry but you were banned from the `%(name)` server!\nReason: %(reason)",
-    "invalidNumberOfDays": "The number of days to delete messages from the banned user you gave me is invalid",
+    "DMExplanation": "I'm sorry but you were banned from the `%(name)` server.\nReason: %(reason)",
+    "invalidNumberOfDays": "The number of days to delete messages from the banned user you gave me is invalid.",
     "reason": {
-      "description": "Provides a reason for banning the users"
+      "description": "Provides a reason for banning the users."
     },
     "silent": {
-      "description": "Bans users without messaging them or notifying the channel"
+      "description": "Bans users without messaging them or notifying the channel."
     },
     "days": {
-      "description": "Number of days of messages to delete"
+      "description": "Number of days of messages to delete."
     }
   },
   "unban": {
-    "description": "Unbans the specified username",
-    "userNotFound": "I couldn't find the user to unban, try using the server management window",
+    "description": "Unbans the specified username.",
+    "userNotFound": "I couldn't find the user to unban, try using the server management window.",
     "success": "Successfully unbanned %s",
-    "multipleUsersFound": "Multiple users were found with that name, try providing a discriminator or using the server management window"
+    "multipleUsersFound": "Multiple users were found with that name, try providing a discriminator or using the server management window."
   },
   "vccontrol": {
     "description": "Mute, deafen, move, or disconnect members and roles from a voice channel. Can only disconnect one member at a time. If a member has no voice channel, the command will have no effect. This command can affect other moderators.",
     "unrecognizedCommand": "Unrecognized subcommand. Please use `~help vcc` to find available subcommands.",
-    "channelNotFound": "Could not find a voice channel with the name `%s`.",
-    "multipleChannelsFound": "Found multiple voice channels with the name `%s`. You cannot which one to move to without renaming it."
+    "channelNotFound": "Could not find a voice channel with the name `%s`",
+    "multipleChannelsFound": "Found multiple voice channels with the name `%s`. You cannot specify which one to move to without renaming it."
   }
 }

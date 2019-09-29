@@ -27,7 +27,7 @@ module.exports = {
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setTitle(__('help.wikiExplanation'))
-      .setURL('https://bitbucket.org/ktucalvin/mystia/wiki/Home')
+      .setURL('https://github.com/ktucalvin/lynne')
 
     if (args.length === 0) {
       const commands = registry.commands.keyArray()
