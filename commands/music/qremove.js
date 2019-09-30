@@ -10,10 +10,10 @@ module.exports = {
   role: 'Music',
   execute (message, args) {
     const __ = i18n.useGuild(message.guild.id)
-    const Q = manager.getQueue(message.guild.id)
+    const queue = manager.getQueue(message.guild.id)
     const index = parseInt(args[0])
 
-    if (!Q || !Q.length) {
+    if (!queue || !queue.length) {
       message.channel.send(__('queue.notPlaying'))
       return
     }
@@ -21,7 +21,7 @@ module.exports = {
       message.channel.send(__('qremove.invalidIndex'))
       return
     }
-    if (index > Q.length || index < 1) {
+    if (index > queue.length || index < 1) {
       message.channel.send(__('qremove.indexOutOfBounds'))
       return
     }
@@ -30,8 +30,8 @@ module.exports = {
       return
     }
 
-    const song = Q[index - 1]
-    Q.splice(index - 1, 1)
+    const song = queue[index - 1]
+    queue.splice(index - 1, 1)
     message.channel.send(__('qremove.success', song.title))
   }
 }

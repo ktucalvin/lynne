@@ -8,8 +8,8 @@ module.exports = {
   usage: ['queue'],
   execute (message, args) {
     const __ = i18n.useGuild(message.guild.id)
-    const Q = manager.getQueue(message.guild.id)
-    if (!Q || !Q.length) {
+    const queue = manager.getQueue(message.guild.id)
+    if (!queue || !queue.length) {
       message.channel.send(__('queue.notPlaying'))
       return
     }
@@ -17,7 +17,7 @@ module.exports = {
     const embed = new RichEmbed()
       .setColor('#FD79A8')
       .setAuthor(__('queue.title') + state)
-      .setDescription(Q.map((song, index) =>
+      .setDescription(queue.map((song, index) =>
         song.secret ? `**${index + 1}.** ${__('queue.secret')}` : `**${index + 1}.** ${song.title} (<${song.url}>)`
       ).join('\n'))
       .setTimestamp()

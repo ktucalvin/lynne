@@ -15,7 +15,7 @@ module.exports = {
       case 'get':
         message.channel.send(__('locale.get', i18n.getServerLocale(message.guild.id)))
         break
-      case 'set':
+      case 'set': {
         const locale = args[1]
         if (!locale) {
           message.channel.send(__('locale.set.noLocaleSpecified'))
@@ -26,13 +26,15 @@ module.exports = {
           message.channel.send(__('locale.set.success', locale))
         }
         break
-      case 'list':
+      }
+      case 'list': {
         const embed = new RichEmbed()
           .setColor('#FD79A8')
           .setTitle(__('locale.list.availableLocales'))
           .setDescription(availableLocales.join(', '))
         message.channel.send(embed)
         break
+      }
     }
   }
 }

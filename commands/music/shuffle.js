@@ -8,12 +8,12 @@ module.exports = {
   role: 'Music',
   execute (message, args) {
     const __ = i18n.useGuild(message.guild.id)
-    let Q = manager.getQueue(message.guild.id)
-    if (!Q || !Q.length) {
+    const queue = manager.getQueue(message.guild.id)
+    if (!queue || !queue.length) {
       message.channel.send(__('queue.notPlaying'))
       return
     }
-    Q.splice(1, Q.length, ...Q.slice(1).sort(() => 0.5 - Math.random()))
+    queue.splice(1, queue.length, ...queue.slice(1).sort(() => 0.5 - Math.random()))
     message.channel.send(__('shuffle.success'))
   }
 }

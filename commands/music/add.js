@@ -10,8 +10,8 @@ const optmap = new Map()
 let playing
 
 function play (message) {
-  const Q = manager.getQueue(message.guild.id)
-  if (!Q || !Q.length || playing) { return }
+  const queue = manager.getQueue(message.guild.id)
+  if (!queue || !queue.length || playing) { return }
   // If we lose connection, we can't recover so just clean up
   if (!message.guild.me.voiceChannel) {
     manager.flush(message.guild.id)
@@ -19,15 +19,15 @@ function play (message) {
     return
   }
   playing = true
-  const url = Q[0].url
+  const url = queue[0].url
   const connection = message.guild.me.voiceChannel.connection
   const stream = ytdl(url, { quality: 'highestaudio' })
   const dispatcher = connection.playStream(stream)
   manager.attachDispatcher(dispatcher, message.guild.id)
   dispatcher.on('end', () => {
-    Q.shift()
+    queue.shift()
     playing = false
-    if (Q.length) {
+    if (queue.length) {
       play(message)
     } else {
       message.channel.send(i18n.translate('add.complete', message.guild.id))

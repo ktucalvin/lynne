@@ -13,8 +13,8 @@ module.exports = {
   usage: ['playing'],
   execute (message, args) {
     const __ = i18n.useGuild(message.guild.id)
-    const Q = manager.getQueue(message.guild.id)
-    if (!Q || !Q.length) {
+    const queue = manager.getQueue(message.guild.id)
+    if (!queue || !queue.length) {
       message.channel.send(__('queue.notPlaying'))
       return
     }
@@ -23,7 +23,7 @@ module.exports = {
     if (detailed) {
       songinfo(message, ['1'])
     } else {
-      const metadata = Q[0]
+      const metadata = queue[0]
       if (metadata.secret) {
         message.channel.send(__('playing.secret'))
         return

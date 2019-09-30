@@ -9,8 +9,8 @@ module.exports = {
   aliases: ['sinfo'],
   execute (message, args) {
     const __ = i18n.useGuild(message.guild.id)
-    const Q = manager.getQueue(message.guild.id)
-    if (!Q || !Q.length) {
+    const queue = manager.getQueue(message.guild.id)
+    if (!queue || !queue.length) {
       message.channel.send(__('queue.notPlaying'))
       return
     }
@@ -22,12 +22,12 @@ module.exports = {
       return
     }
 
-    if (!Q[index - 1]) {
+    if (!queue[index - 1]) {
       message.channel.send(__('songinfo.indexOutOfBounds'))
       return
     }
 
-    const metadata = Q[index - 1]
+    const metadata = queue[index - 1]
     if (metadata.secret) {
       message.channel.send(__('songinfo.secret'))
       return

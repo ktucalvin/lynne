@@ -9,10 +9,10 @@ module.exports = {
   execute (message, args) {
     const __ = i18n.useGuild(message.guild.id)
     const dispatcher = manager.getDispatcher(message.guild.id)
-    const Q = manager.getQueue(message.guild.id)
+    const queue = manager.getQueue(message.guild.id)
     const index = parseInt(args[0])
 
-    if (!Q || !Q.length) {
+    if (!queue || !queue.length) {
       message.channel.send(__('queue.notPlaying'))
       return
     }
@@ -20,7 +20,7 @@ module.exports = {
       message.channel.send(__('skipto.invalidIndex'))
       return
     }
-    if (index > Q.length || index < 1) {
+    if (index > queue.length || index < 1) {
       message.channel.send(__('skipto.indexOutOfBounds'))
       return
     }
@@ -30,7 +30,7 @@ module.exports = {
     }
 
     // note dispatcher.end will cause the queue to shift one more time
-    Q.splice(0, index - 2)
+    queue.splice(0, index - 2)
     dispatcher.end()
   }
 }

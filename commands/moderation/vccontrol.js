@@ -27,7 +27,7 @@ module.exports = {
     const __ = i18n.useGuild(message.guild.id)
     switch (args[0]) {
       case 'dc':
-      case 'disconnect':
+      case 'disconnect': {
         const member = message.mentions.members.first()
         if (!member.voiceChannel) { return }
         return Promise.resolve()
@@ -38,8 +38,9 @@ module.exports = {
             console.log(err)
             throw new OperationalError('main.unknownError')
           })
+      }
       case 'mv':
-      case 'move':
+      case 'move': {
         const matches = message.guild.channels.filter(e => e.name === args[1])
         if (matches.size === 0) {
           message.channel.send(__('vccontrol.channelNotFound', args[1]))
@@ -49,6 +50,7 @@ module.exports = {
           message.channel.send(__('vccontrol.multipleChannelsFound', args[1]))
         }
         break
+      }
       case 'm':
       case 'mute':
         applyToAllMentions(message, member => member.setMute(true))
