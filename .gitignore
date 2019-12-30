@@ -1,5 +1,11 @@
+# Node.js
 node_modules/
-.env
+
+# Test Utils
 .nyc_output
 coverage/
+
+# Application
+.env
 lang/server-localizations.json
+savestate.json

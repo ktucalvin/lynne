@@ -26,26 +26,16 @@ function close () {
 process.on('SIGINT', close)
 process.on('SIGTERM', close)
 
-function initialize () {
-  ytdlGetInfo
-    .getVersion()
-    .then(currentVersion => {
-      if (currentVersion !== state.ytdlVersion) {
-        console.log('Updating ytdl-getinfo binary...')
-        return ytdlGetInfo
-          .update()
-          .then(version => {
-            console.log(`Updated ytdl-getinfo binary to ${version}`)
-            state.ytdlVersion = version
-            fs.writeFileSync('savestate.json', JSON.stringify(state))
-          })
-      } else {
-        console.log('Have latest ytdl-getinfo binary. Not updating.')
-      }
-    })
-    .then(() => {
-      client.login(process.env.TOKEN)
-    })
-}
-
-initialize()
+;(async () => {
+  const currentVersion = await ytdlGetInfo.getVersion()
+  if (currentVersion !== state.ytdlVersion) {
+    console.log('Updating ytdl-getinfo binary...')
+    const version = await ytdlGetInfo.update()
+    console.log(`Updated ytdl-getinfo binary to ${version}`)
+    state.ytdlVersion = version
+    fs.writeFileSync('savestate.json', JSON.stringify(state))
+  } else {
+    console.log('Have latest ytdl-getinfo binary. Not updating.')
+  }
+  client.login(process.env.TOKEN)
+})()
